@@ -17,11 +17,22 @@
   .intro h1{font-family:var(--serif);font-size:clamp(1.9rem,6vw,2.5rem);font-weight:normal;line-height:1.15;margin-bottom:1.3rem}
   .intro p{font-size:15.5px;color:var(--ink-2);line-height:1.72;margin-bottom:.95rem}
   .intro p:last-child{margin-bottom:0}
+  .intro{transition:padding .35s ease}
+  .intro.compact{padding:1.6rem 0 1.1rem;margin-bottom:1.8rem}
+  .intro.compact p{display:none}
+  .intro.compact .kicker{margin-bottom:.35rem;font-size:10px}
+  .intro.compact h1{font-size:1.05rem;margin-bottom:0;color:var(--ink-2)}
+  .principio{font-family:var(--serif);font-size:1.22rem;line-height:1.4;color:var(--ink);margin-top:1.5rem}
+  .intro.compact .principio{display:none}
   .screen{display:none}.screen.active{display:block}
   .bar{height:2px;background:var(--border);margin-bottom:2.5rem}
   .bar span{display:block;height:100%;background:var(--accent);transition:width .45s cubic-bezier(.4,0,.2,1)}
   .q{font-family:var(--serif);font-size:clamp(1.25rem,4.2vw,1.55rem);font-weight:normal;line-height:1.35;margin-bottom:.45rem}
   .q-sub{font-size:13.5px;color:var(--ink-3);margin-bottom:1.7rem}
+  .step{font-size:14px;line-height:1.7;color:var(--ink-3);margin-bottom:1.6rem;padding-bottom:1.4rem;border-bottom:1px solid var(--paper-2)}
+  .nav-solo{margin-top:.4rem}
+  .nav-solo .back{padding:10px 0;border:none;background:none}
+  .nav-solo .back:hover{color:var(--ink)}
   .opts{display:grid;gap:6px;margin-bottom:1.8rem}
   .opt{padding:15px 17px;border:1px solid var(--border);border-radius:var(--radius);background:#fff;cursor:pointer;text-align:left;width:100%;font-family:var(--sans);font-size:14.5px;line-height:1.45;color:var(--ink);transition:border-color .15s,background .15s}
   .opt:hover{border-color:var(--accent);background:var(--accent-light)}
@@ -82,7 +93,8 @@
   <h1>Davide Crisci</h1>
   <p>C'è una cosa che continuo a notare, viaggio dopo viaggio: due persone possono fare lo stesso viaggio, negli stessi giorni, negli stessi posti, e vivere due esperienze completamente diverse. Non perché il viaggio cambi. Perché cambiano le persone che lo fanno.</p>
   <p>Non dipende dalla destinazione. Dipende da dove si trovava quella persona quando è partita, ed è la parte che quasi nessuno guarda prima di prenotare.</p>
-  <p>Per questo comincio da qui e non dalla mappa. Sette domande per capire il punto di partenza. La destinazione è l'ultima cosa che decido, non la prima.</p>
+  <p>Per questo comincio da qui e non dalla mappa. Sette domande per capire il punto di partenza.</p>
+  <p class="principio">La destinazione la scelgo per ultima.</p>
 </div>
 
 <div class="screen active" id="s0">
@@ -107,13 +119,12 @@
     <button class="opt" onclick="p('s1','q1',5,this)">Voglio godermi ogni cosa — il cibo, i posti, i dettagli.</button>
     <button class="opt" onclick="p('s1','q1',6,this)">Voglio vedere molto e muovermi tanto.</button>
   </div>
-  <div class="nav"><button class="back" onclick="go('s0')">Indietro</button><button class="next" id="b-s1" onclick="go('s2')">Avanti</button></div>
+  <div class="nav nav-solo"><button class="back" onclick="go('s0')">Indietro</button></div>
 </div>
 
 <div class="screen" id="s2">
   <div class="bar"><span style="width:28%"></span></div>
   <div class="q">Con chi sei, in questo viaggio?</div>
-  <div class="q-sub"></div>
   <div class="opts" id="g-s2">
     <button class="opt" onclick="p('s2','q5',0,this)">Solo</button>
     <button class="opt" onclick="p('s2','q5',1,this)">Con il partner</button>
@@ -121,11 +132,12 @@
     <button class="opt" onclick="p('s2','q5',3,this)">Con figli</button>
     <button class="opt" onclick="p('s2','q5',4,this)">Non lo so ancora</button>
   </div>
-  <div class="nav"><button class="back" onclick="go('s1')">Indietro</button><button class="next" id="b-s2" onclick="go('s3')">Avanti</button></div>
+  <div class="nav nav-solo"><button class="back" onclick="go('s1')">Indietro</button></div>
 </div>
 
 <div class="screen" id="s3">
   <div class="bar"><span style="width:42%"></span></div>
+  <p class="step">Le prime due avevano una lista da cui scegliere. Questa no.</p>
   <div class="q">C'è una cosa che, se succede, questo viaggio è riuscito?</div>
   <div class="q-sub">La prima che ti viene. Può essere una sensazione, un momento o una frase.</div>
   <textarea class="field" id="inp-open" placeholder="Es. tornare con la testa più leggera, non guardare mai il telefono, fare colazione guardando il mare..." oninput="cO()"></textarea>
@@ -141,23 +153,24 @@
     <button class="opt" onclick="p('s4','q2',1,this)">Dipende. Non ho una regola fissa.</button>
     <button class="opt" onclick="p('s4','q2',2,this)">Preferisco che le cose funzionino. Quando sto bene, mi godo tutto di più.</button>
   </div>
-  <div class="nav"><button class="back" onclick="go('s3')">Indietro</button><button class="next" id="b-s4" onclick="go('s5')">Avanti</button></div>
+  <div class="nav nav-solo"><button class="back" onclick="go('s3')">Indietro</button></div>
 </div>
 
 <div class="screen" id="s5">
   <div class="bar"><span style="width:71%"></span></div>
-  <div class="q">Arrivi in un posto nuovo senza un piano per il giorno. Come stai?</div>
+  <div class="q" id="q-rit">Arrivi in un posto nuovo senza un piano per il giorno. Come stai?</div>
   <div class="q-sub">La prima reazione, non quella ragionata.</div>
   <div class="opts" id="g-s5">
     <button class="opt" onclick="p('s5','q3',0,this)">Benissimo. È quello che preferisco.</button>
     <button class="opt" onclick="p('s5','q3',1,this)">Un po' di ansia, poi mi adatto.</button>
     <button class="opt" onclick="p('s5','q3',2,this)">Preferisco sapere già cosa farò.</button>
   </div>
-  <div class="nav"><button class="back" onclick="go('s4')">Indietro</button><button class="next" id="b-s5" onclick="go('s6')">Avanti</button></div>
+  <div class="nav nav-solo"><button class="back" onclick="go('s4')">Indietro</button></div>
 </div>
 
 <div class="screen" id="s6">
   <div class="bar"><span style="width:85%"></span></div>
+  <p class="step">Ancora due, poi ti scrivo.</p>
   <div class="q">Cosa trasformerebbe questo viaggio in un fallimento?</div>
   <div class="q-sub">Una sola cosa. Quella che pesa di più.</div>
   <div class="opts" id="g-s6">
@@ -168,7 +181,7 @@
     <button class="opt" onclick="p('s6','q4',4,this)">Non aver fatto niente di fisicamente impegnativo.</button>
     <button class="opt" onclick="p('s6','q4',5,this)">Non aver vissuto niente che resterà.</button>
   </div>
-  <div class="nav"><button class="back" onclick="go('s5')">Indietro</button><button class="next" id="b-s6" onclick="go('s7')">Avanti</button></div>
+  <div class="nav nav-solo"><button class="back" onclick="go('s5')">Indietro</button></div>
 </div>
 
 <div class="screen" id="s7">
@@ -181,7 +194,7 @@
     <button class="opt" onclick="p('s7','q6',2,this)">Metterei tutto sulle esperienze — il cibo, i posti, le attività.</button>
     <button class="opt" onclick="p('s7','q6',3,this)">Preferirei delegare tutto — arrivare e trovare tutto già fatto bene.</button>
   </div>
-  <div class="nav"><button class="back" onclick="go('s6')">Indietro</button><button class="next" id="b-s7" onclick="send()">Vedi cosa ne esce</button></div>
+  <div class="nav nav-solo"><button class="back" onclick="go('s6')">Indietro</button></div>
 </div>
 
 <div class="screen" id="s-wait">
@@ -435,11 +448,32 @@ function pickProfile(){
  return{k:P.fuggiasco,weak:true};
 }
 
+const STEP={s1:'s2',s2:'s3',s4:'s5',s5:'s6',s6:'s7'};
+let moving=false;
+
 function p(sid,key,val,btn){
+ if(moving) return;
  a[key]=val;
  document.getElementById('g-'+sid).querySelectorAll('.opt').forEach(x=>x.classList.remove('sel'));
  btn.classList.add('sel');
- const b=document.getElementById('b-'+sid);if(b)b.classList.add('on');
+ moving=true;
+ setTimeout(()=>{
+  moving=false;
+  if(sid==='s7'){send();return;}
+  const n=STEP[sid];
+  if(n){ if(n==='s5')echo(); go(n); }
+ },340);
+}
+
+// eco lessicale: la domanda sul ritmo si adatta a con chi si viaggia.
+// nessuna interpretazione, solo concordanza.
+function echo(){
+ const el=document.getElementById('q-rit');
+ if(!el)return;
+ const plurale=(a.q5===1||a.q5===2||a.q5===3);
+ el.textContent = plurale
+  ? 'Arrivate in un posto nuovo senza un piano per il giorno. Come stai?'
+  : 'Arrivi in un posto nuovo senza un piano per il giorno. Come stai?';
 }
 function c0(){
  const n=document.getElementById('inp-name').value.trim(),e=document.getElementById('inp-email').value.trim();
@@ -451,8 +485,10 @@ function go(id){
  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
  const t=document.getElementById(id);
  if(t){t.classList.add('active');window.scrollTo({top:0,behavior:'smooth'});}
+ const intro=document.querySelector('.intro');
+ if(intro)intro.classList.toggle('compact',id!=='s0');
 }
-function send(){go('s-wait');setTimeout(()=>{out(pickProfile());go('s-out');},1600);}
+function send(){go('s-wait');setTimeout(()=>{out(pickProfile());go('s-out');},3200);}
 
 function out(res){
  const k=res.k;
