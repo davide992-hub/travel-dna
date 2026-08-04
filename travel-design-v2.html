@@ -49,6 +49,7 @@
   .lab{font-size:11px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);margin-bottom:1.1rem}
   .read{font-family:var(--serif);font-size:1.32rem;line-height:1.35;color:var(--accent-deep);margin-bottom:1.3rem}
   hr.r{border:none;height:1px;background:var(--paper-2);margin:2.1rem 0 1.7rem}
+  .dintro{font-size:14.5px;line-height:1.7;color:var(--ink-2);margin-bottom:1.9rem}
   .d{margin-bottom:1.9rem}.d:last-child{margin-bottom:0}
   .d h4{font-family:var(--serif);font-size:1.2rem;font-weight:normal;line-height:1.2;margin-bottom:.15rem}
   .d .co{font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);margin-bottom:.4rem}
@@ -59,7 +60,9 @@
   .close p{font-size:14.5px;line-height:1.72;color:var(--ink-2);margin-bottom:1rem}
   .punch{font-family:var(--serif);font-size:1.2rem;line-height:1.4;color:var(--ink);margin:1.6rem 0 1.4rem}
   .close .n{font-family:var(--serif);font-size:1.15rem;color:var(--ink)}
-  .ask{margin-top:2.1rem;padding-top:1.7rem;border-top:1px solid var(--paper-2)}
+  .limit{margin-top:2rem;padding-top:1.6rem;border-top:1px solid var(--paper-2)}
+  .limit p{font-size:14.5px;line-height:1.72;color:var(--ink-2);margin:0}
+  .ask{margin-top:1.6rem;padding-top:1.7rem;border-top:1px solid var(--paper-2)}
   .ask h5{font-family:var(--serif);font-size:1.08rem;font-weight:normal;line-height:1.4;margin-bottom:.45rem}
   .ask .s{font-size:13.5px;color:var(--ink-3);line-height:1.6;margin-bottom:1rem}
   .ask textarea{min-height:100px}
@@ -79,7 +82,7 @@
   <h1>Davide Crisci</h1>
   <p>C'è una cosa che continuo a notare, viaggio dopo viaggio: due persone possono fare lo stesso viaggio, negli stessi giorni, negli stessi posti, e vivere due esperienze completamente diverse. Non perché il viaggio cambi. Perché cambiano le persone che lo fanno.</p>
   <p>Non dipende dalla destinazione. Dipende da dove si trovava quella persona quando è partita, ed è la parte che quasi nessuno guarda prima di prenotare.</p>
-  <p>Per questo comincio da qui e non dalla mappa. Sette domande, tre minuti.</p>
+  <p>Per questo comincio da qui e non dalla mappa. Sette domande per capire il punto di partenza. La destinazione è l'ultima cosa che decido, non la prima.</p>
 </div>
 
 <div class="screen active" id="s0">
@@ -88,7 +91,7 @@
   <label for="inp-email">Email</label>
   <input class="field" type="email" id="inp-email" placeholder="nome@esempio.com" autocomplete="email" oninput="c0()">
   <p class="note">La uso solo per risponderti.</p>
-  <button class="next" id="b-s0" onclick="go('s1')">Cominciamo</button>
+  <button class="next" id="b-s0" onclick="go('s1')">Cominciamo, sono tre minuti</button>
 </div>
 
 <div class="screen" id="s1">
@@ -194,15 +197,18 @@
     <div id="o-body"></div>
     <hr class="r">
     <div class="lab">Da qui inizierei</div>
+    <p class="dintro">Non sono un itinerario e non sono in ordine di preferenza. Sono tre modi diversi di rispondere alla stessa cosa. È normale che una ti attiri molto più delle altre, e a me interessa soprattutto quella: capire quale scegli, e perché, dice di te più di tutte le risposte che hai dato finora.</p>
     <div id="o-dests"></div>
     <hr class="r">
     <div class="lab">Se dovessi dirti una cosa sola</div>
     <div class="warn" id="o-warn"></div>
     <div class="close">
-      <p>Queste tre non sono un itinerario. Sono tre direzioni, e servono soprattutto a capire quale ti attira e perché.</p>
-      <p>Di solito è lì che comincia la parte interessante: quando mi dici cosa ti convince e cosa no. Da quella conversazione esce un viaggio che assomiglia a te, non a un catalogo.</p>
+      <p>La parte interessante comincia quando mi dici cosa ti convince e cosa no. Da quella conversazione esce un viaggio che assomiglia a te, non a un catalogo.</p>
       <div class="punch">Trovare i posti è la parte facile.<br>Il resto viene parlando.</div>
       <div class="n">Davide</div>
+    </div>
+    <div class="limit">
+      <p>Quello che hai letto nasce da sette risposte. Bastano per vedere una direzione. Le sfumature vengono fuori parlando.</p>
     </div>
     <div class="ask">
       <h5>Una cosa mi interessa davvero.</h5>
