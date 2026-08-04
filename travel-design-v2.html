@@ -3,837 +3,485 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Travel DNA — Scopri il tuo archetipo di viaggiatore</title>
+<title>Davide Crisci — Travel Design</title>
 <style>
-  :root {
-    --ink: #1a1a18;
-    --ink-2: #4a4a44;
-    --ink-3: #8a8a80;
-    --paper: #f7f5f0;
-    --paper-2: #eeebe3;
-    --accent: #534AB7;
-    --accent-light: #eeedfe;
-    --accent-mid: #3C3489;
-    --yes: #1D9E75;
-    --yes-light: #e1f5ee;
-    --no: #c0392b;
-    --no-light: #fceaea;
-    --border: #d8d4c8;
-    --radius: 10px;
-    --font-display: 'Georgia', 'Times New Roman', serif;
-    --font-body: 'Helvetica Neue', 'Arial', sans-serif;
-  }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    background: var(--paper);
-    color: var(--ink);
-    font-family: var(--font-body);
-    min-height: 100vh;
-    line-height: 1.6;
-  }
-
-  .shell {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 2rem 1.25rem 4rem;
-  }
-
-  /* HEADER */
-  .site-header {
-    text-align: center;
-    padding: 2.5rem 0 2rem;
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 2rem;
-  }
-  .wordmark {
-    font-family: var(--font-display);
-    font-size: 13px;
-    letter-spacing: .18em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 1.25rem;
-  }
-  .site-header h1 {
-    font-family: var(--font-display);
-    font-size: clamp(1.6rem, 5vw, 2.4rem);
-    font-weight: normal;
-    line-height: 1.25;
-    color: var(--ink);
-    margin-bottom: .75rem;
-  }
-  .site-header p {
-    font-size: 15px;
-    color: var(--ink-2);
-    max-width: 420px;
-    margin: 0 auto;
-  }
-  .meta-chips {
-    display: flex;
-    gap: 8px;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-top: 1.25rem;
-  }
-  .chip {
-    font-size: 11px;
-    padding: 4px 12px;
-    border-radius: 20px;
-    border: 1px solid var(--border);
-    color: var(--ink-3);
-    background: var(--paper-2);
-    letter-spacing: .04em;
-  }
-
-  /* SCREEN SYSTEM */
-  .screen { display: none; }
-  .screen.active { display: block; }
-
-  /* PROGRESS */
-  .progress-wrap { margin-bottom: 2rem; }
-  .progress-track {
-    height: 2px;
-    background: var(--border);
-    border-radius: 2px;
-    overflow: hidden;
-  }
-  .progress-fill {
-    height: 100%;
-    background: var(--accent);
-    border-radius: 2px;
-    transition: width .5s cubic-bezier(.4,0,.2,1);
-  }
-  .progress-label {
-    font-size: 11px;
-    color: var(--ink-3);
-    margin-top: 8px;
-    letter-spacing: .04em;
-  }
-
-  /* QUESTION */
-  .q-eyebrow {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: .75rem;
-  }
-  .q-title {
-    font-family: var(--font-display);
-    font-size: clamp(1.1rem, 3.5vw, 1.4rem);
-    font-weight: normal;
-    line-height: 1.4;
-    color: var(--ink);
-    margin-bottom: .5rem;
-  }
-  .q-note {
-    font-size: 13px;
-    color: var(--ink-3);
-    font-style: italic;
-    margin-bottom: 1.5rem;
-  }
-
-  /* OPTIONS */
-  .opts { display: grid; gap: 8px; margin-bottom: 1.5rem; }
-  .opt {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    padding: 14px 16px;
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    background: white;
-    cursor: pointer;
-    text-align: left;
-    width: 100%;
-    transition: border-color .15s, background .15s, transform .1s;
-  }
-  .opt:hover { border-color: var(--accent); background: var(--accent-light); }
-  .opt:active { transform: scale(.99); }
-  .opt.sel { border-color: var(--accent); background: var(--accent-light); }
-  .opt.sel .opt-key { background: var(--accent); color: white; border-color: var(--accent); }
-  .opt-key {
-    min-width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    border: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--ink-3);
-    flex-shrink: 0;
-    margin-top: 1px;
-    transition: background .15s, color .15s, border-color .15s;
-  }
-  .opt-body { flex: 1; }
-  .opt-main { font-size: 14px; color: var(--ink); line-height: 1.4; font-weight: 500; }
-  .opt-sub { font-size: 12px; color: var(--ink-3); margin-top: 3px; line-height: 1.4; }
-
-  /* NAV */
-  .nav-row { display: flex; gap: 10px; }
-  .btn-back {
-    padding: 13px 18px;
-    font-size: 14px;
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    background: white;
-    color: var(--ink-2);
-    cursor: pointer;
-    font-family: var(--font-body);
-    transition: border-color .15s;
-  }
-  .btn-back:hover { border-color: var(--ink-3); }
-  .btn-next {
-    flex: 1;
-    padding: 13px;
-    font-size: 14px;
-    font-weight: 600;
-    border: none;
-    border-radius: var(--radius);
-    background: var(--accent);
-    color: white;
-    cursor: pointer;
-    font-family: var(--font-body);
-    opacity: .35;
-    pointer-events: none;
-    transition: opacity .2s;
-    letter-spacing: .02em;
-  }
-  .btn-next.on { opacity: 1; pointer-events: auto; }
-
-  /* INTAKE */
-  .field-label {
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: .06em;
-    text-transform: uppercase;
-    color: var(--ink-2);
-    margin-bottom: 6px;
-    display: block;
-  }
-  .field {
-    width: 100%;
-    padding: 13px 14px;
-    font-size: 15px;
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    background: white;
-    color: var(--ink);
-    font-family: var(--font-body);
-    margin-bottom: 14px;
-    transition: border-color .15s;
-    -webkit-appearance: none;
-  }
-  .field:focus { outline: none; border-color: var(--accent); }
-  .field-note {
-    font-size: 12px;
-    color: var(--ink-3);
-    margin-bottom: 1.5rem;
-    line-height: 1.5;
-  }
-  textarea.field { min-height: 100px; resize: vertical; line-height: 1.6; }
-
-  /* LOADING */
-  .loading-wrap { text-align: center; padding: 4rem 0; }
-  .spinner {
-    width: 36px;
-    height: 36px;
-    border: 2px solid var(--border);
-    border-top-color: var(--accent);
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    margin: 0 auto 1.25rem;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  .loading-title { font-family: var(--font-display); font-size: 1.2rem; font-weight: normal; margin-bottom: .5rem; }
-  .loading-sub { font-size: 13px; color: var(--ink-3); }
-  .dots { display: inline-flex; gap: 4px; margin-top: 1rem; }
-  .dot {
-    width: 5px; height: 5px;
-    border-radius: 50%;
-    background: var(--accent);
-    animation: pulse 1.2s ease-in-out infinite;
-  }
-  .dot:nth-child(2) { animation-delay: .2s; }
-  .dot:nth-child(3) { animation-delay: .4s; }
-  @keyframes pulse { 0%,100%{opacity:.25} 50%{opacity:1} }
-
-  /* RESULT */
-  .result-eyebrow {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: .75rem;
-  }
-  .result-name {
-    font-family: var(--font-display);
-    font-size: clamp(1.8rem, 6vw, 2.8rem);
-    font-weight: normal;
-    color: var(--ink);
-    margin-bottom: .5rem;
-    line-height: 1.2;
-  }
-  .result-sub { font-size: 14px; color: var(--ink-3); margin-bottom: 1.25rem; }
-  .result-phrase {
-    font-family: var(--font-display);
-    font-size: 17px;
-    color: var(--ink-2);
-    line-height: 1.6;
-    padding: 1rem 1.25rem;
-    background: white;
-    border-left: 3px solid var(--accent);
-    margin: 1.25rem 0;
-    font-style: italic;
-  }
-
-  /* DNA BARS */
-  .dna-section { margin: 1.5rem 0; }
-  .dna-label-row {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: .08em;
-    text-transform: uppercase;
-    color: var(--ink-3);
-    margin-bottom: 10px;
-  }
-  .dna-item { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
-  .dna-name { font-size: 12px; color: var(--ink-2); min-width: 80px; }
-  .dna-track { flex: 1; height: 4px; background: var(--border); border-radius: 2px; }
-  .dna-bar { height: 4px; border-radius: 2px; background: var(--accent); transition: width .8s cubic-bezier(.4,0,.2,1); }
-  .dna-val { font-size: 12px; font-weight: 600; color: var(--ink); min-width: 28px; text-align: right; }
-
-  /* DIVIDER */
-  .rule { height: 1px; background: var(--border); margin: 1.5rem 0; }
-
-  /* TAGS */
-  .section-label {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    color: var(--ink-3);
-    margin-bottom: 10px;
-  }
-  .tag-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 1rem; }
-  .tag {
-    font-size: 12px;
-    padding: 4px 10px;
-    border-radius: 4px;
-    font-weight: 500;
-  }
-  .tag-yes { background: var(--yes-light); color: var(--yes); }
-  .tag-no { background: var(--no-light); color: var(--no); }
-
-  /* ERROR BOX */
-  .error-box {
-    background: white;
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 1rem;
-    margin-bottom: 1rem;
-  }
-  .error-title { font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
-  .error-why { font-size: 12px; color: var(--ink-3); line-height: 1.5; }
-
-  /* RATING */
-  .rating-section { margin: 1.5rem 0; }
-  .rating-q { font-family: var(--font-display); font-size: 1rem; font-weight: normal; margin-bottom: .4rem; }
-  .rating-note { font-size: 13px; color: var(--ink-3); margin-bottom: 1rem; font-style: italic; }
-  .rating-scale { display: flex; gap: 5px; flex-wrap: wrap; }
-  .rbtn {
-    width: 42px;
-    height: 42px;
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    background: white;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    color: var(--ink-2);
-    font-family: var(--font-body);
-    transition: all .15s;
-  }
-  .rbtn:hover { border-color: var(--accent); color: var(--accent); }
-  .rbtn.sel { background: var(--accent); color: white; border-color: var(--accent); }
-  .rating-ends { display: flex; justify-content: space-between; margin-top: 6px; font-size: 11px; color: var(--ink-3); }
-  .rating-feedback {
-    margin-top: 1rem;
-    padding: .875rem 1rem;
-    border-radius: var(--radius);
-    background: var(--paper-2);
-    font-size: 13px;
-    color: var(--ink-2);
-    line-height: 1.6;
-    display: none;
-    border-left: 3px solid var(--accent);
-  }
-  .rating-feedback.show { display: block; }
-
-  /* CTA */
-  .cta-box {
-    background: white;
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 1.5rem;
-    text-align: center;
-    margin-top: 1.5rem;
-    display: none;
-  }
-  .cta-box.show { display: block; }
-  .cta-title { font-family: var(--font-display); font-size: 1.1rem; font-weight: normal; margin-bottom: .5rem; }
-  .cta-sub { font-size: 13px; color: var(--ink-3); margin-bottom: 1.25rem; line-height: 1.5; }
-  .cta-btn {
-    width: 100%;
-    padding: 14px;
-    font-size: 15px;
-    font-weight: 600;
-    border: none;
-    border-radius: var(--radius);
-    background: var(--accent);
-    color: white;
-    cursor: pointer;
-    font-family: var(--font-body);
-    letter-spacing: .02em;
-  }
-  .cta-btn:hover { background: var(--accent-mid); }
-
-  .restart-link {
-    text-align: center;
-    margin-top: 1.5rem;
-  }
-  .restart-link button {
-    background: none;
-    border: none;
-    font-size: 13px;
-    color: var(--ink-3);
-    cursor: pointer;
-    font-family: var(--font-body);
-    text-decoration: underline;
-  }
-
-  @media (max-width: 480px) {
-    .shell { padding: 1.25rem 1rem 3rem; }
-    .rbtn { width: 36px; height: 36px; font-size: 13px; }
-  }
+  :root{--ink:#1c1b18;--ink-2:#4d4a43;--ink-3:#8a8578;--paper:#f6f4ef;--paper-2:#edeae1;
+  --accent:#3f5c50;--accent-light:#e8efeb;--accent-deep:#2a3f37;--border:#dcd7ca;--radius:6px;
+  --serif:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;
+  --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.6;-webkit-font-smoothing:antialiased}
+  .shell{max-width:560px;margin:0 auto;padding:2rem 1.25rem 4rem}
+  .intro{padding:3rem 0 2.5rem;border-bottom:1px solid var(--border);margin-bottom:2.5rem}
+  .kicker{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3);margin-bottom:1rem}
+  .intro h1{font-family:var(--serif);font-size:clamp(1.9rem,6vw,2.5rem);font-weight:normal;line-height:1.15;margin-bottom:1.3rem}
+  .intro p{font-size:15.5px;color:var(--ink-2);line-height:1.72;margin-bottom:.95rem}
+  .intro p:last-child{margin-bottom:0}
+  .screen{display:none}.screen.active{display:block}
+  .bar{height:2px;background:var(--border);margin-bottom:2.5rem}
+  .bar span{display:block;height:100%;background:var(--accent);transition:width .45s cubic-bezier(.4,0,.2,1)}
+  .q{font-family:var(--serif);font-size:clamp(1.25rem,4.2vw,1.55rem);font-weight:normal;line-height:1.35;margin-bottom:.45rem}
+  .q-sub{font-size:13.5px;color:var(--ink-3);margin-bottom:1.7rem}
+  .opts{display:grid;gap:6px;margin-bottom:1.8rem}
+  .opt{padding:15px 17px;border:1px solid var(--border);border-radius:var(--radius);background:#fff;cursor:pointer;text-align:left;width:100%;font-family:var(--sans);font-size:14.5px;line-height:1.45;color:var(--ink);transition:border-color .15s,background .15s}
+  .opt:hover{border-color:var(--accent);background:var(--accent-light)}
+  .opt.sel{border-color:var(--accent);background:var(--accent-light);box-shadow:inset 3px 0 0 var(--accent)}
+  .nav{display:flex;gap:10px}
+  .back{padding:13px 18px;font-size:14px;border:1px solid var(--border);border-radius:var(--radius);background:transparent;color:var(--ink-3);cursor:pointer;font-family:var(--sans)}
+  .back:hover{color:var(--ink-2);border-color:var(--ink-3)}
+  .next{flex:1;padding:13px;font-size:14px;font-weight:600;border:none;border-radius:var(--radius);background:var(--accent);color:#fff;cursor:pointer;font-family:var(--sans);opacity:.25;pointer-events:none;transition:opacity .2s}
+  .next.on{opacity:1;pointer-events:auto}.next:hover{background:var(--accent-deep)}
+  label{font-size:12px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-2);margin-bottom:6px;display:block}
+  .field{width:100%;padding:13px 14px;font-size:15px;border:1px solid var(--border);border-radius:var(--radius);background:#fff;color:var(--ink);font-family:var(--sans);margin-bottom:14px;-webkit-appearance:none}
+  .field:focus{outline:none;border-color:var(--accent)}
+  .note{font-size:12.5px;color:var(--ink-3);margin-bottom:1.7rem;line-height:1.55}
+  textarea.field{min-height:115px;resize:vertical;line-height:1.65}
+  .wait{text-align:center;padding:5rem 0}
+  .dot3{display:inline-flex;gap:5px}
+  .dot3 i{width:5px;height:5px;border-radius:50%;background:var(--accent);animation:p 1.3s ease-in-out infinite}
+  .dot3 i:nth-child(2){animation-delay:.22s}.dot3 i:nth-child(3){animation-delay:.44s}
+  @keyframes p{0%,100%{opacity:.2}50%{opacity:1}}
+  .letter{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:2.25rem 1.9rem}
+  .hi{font-family:var(--serif);font-size:1.2rem;margin-bottom:1.15rem}
+  p.t{font-size:15px;line-height:1.72;color:var(--ink-2);margin-bottom:1.05rem}
+  p.t:last-child{margin-bottom:0}
+  .said{font-family:var(--serif);font-size:16.5px;line-height:1.6;color:var(--ink);padding:.15rem 0 .15rem 1.15rem;border-left:2px solid var(--accent);margin:1.25rem 0;font-style:italic}
+  .lab{font-size:11px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);margin-bottom:1.1rem}
+  .read{font-family:var(--serif);font-size:1.32rem;line-height:1.35;color:var(--accent-deep);margin-bottom:1.3rem}
+  hr.r{border:none;height:1px;background:var(--paper-2);margin:2.1rem 0 1.7rem}
+  .d{margin-bottom:1.9rem}.d:last-child{margin-bottom:0}
+  .d h4{font-family:var(--serif);font-size:1.2rem;font-weight:normal;line-height:1.2;margin-bottom:.15rem}
+  .d .co{font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);margin-bottom:.4rem}
+  .d .m{font-size:12.5px;color:var(--ink-3);font-style:italic;margin-bottom:.6rem}
+  .d p{font-size:14.5px;line-height:1.68;color:var(--ink-2)}
+  .warn{font-size:14.5px;line-height:1.68;color:var(--ink-2)}
+  .close{margin-top:2.2rem;padding-top:1.7rem;border-top:1px solid var(--paper-2)}
+  .close p{font-size:14.5px;line-height:1.72;color:var(--ink-2);margin-bottom:1rem}
+  .punch{font-family:var(--serif);font-size:1.2rem;line-height:1.4;color:var(--ink);margin:1.6rem 0 1.4rem}
+  .close .n{font-family:var(--serif);font-size:1.15rem;color:var(--ink)}
+  .ask{margin-top:2.1rem;padding-top:1.7rem;border-top:1px solid var(--paper-2)}
+  .ask h5{font-family:var(--serif);font-size:1.08rem;font-weight:normal;line-height:1.4;margin-bottom:.45rem}
+  .ask .s{font-size:13.5px;color:var(--ink-3);line-height:1.6;margin-bottom:1rem}
+  .ask textarea{min-height:100px}
+  .go button{width:100%;padding:15px;font-size:15px;font-weight:600;border:none;border-radius:var(--radius);background:var(--accent);color:#fff;cursor:pointer;font-family:var(--sans);opacity:.25;pointer-events:none;transition:opacity .2s}
+  .go button.on{opacity:1;pointer-events:auto}
+  .go button:hover{background:var(--accent-deep)}
+  .again{text-align:center;margin-top:1.8rem}
+  .again button{background:none;border:none;font-size:13px;color:var(--ink-3);cursor:pointer;font-family:var(--sans);text-decoration:underline}
+  @media(max-width:480px){.shell{padding:1.25rem 1rem 3rem}.letter{padding:1.6rem 1.3rem}}
 </style>
 </head>
 <body>
 <div class="shell">
 
-  <header class="site-header">
-    <div class="wordmark">Travel DNA</div>
-    <h1>Scopri che tipo di<br>viaggiatore sei davvero</h1>
-    <p>Non dove vuoi andare. Chi sei quando parti.</p>
-    <div class="meta-chips">
-      <span class="chip">3 minuti</span>
-      <span class="chip">15 archetipi</span>
-      <span class="chip">Nessuna risposta giusta</span>
-    </div>
-  </header>
+<div class="intro">
+  <div class="kicker">Travel Design</div>
+  <h1>Davide Crisci</h1>
+  <p>C'è una cosa che continuo a notare, viaggio dopo viaggio: due persone possono fare lo stesso viaggio, negli stessi giorni, negli stessi posti, e vivere due esperienze completamente diverse. Non perché il viaggio cambi. Perché cambiano le persone che lo fanno.</p>
+  <p>Non dipende dalla destinazione. Dipende da dove si trovava quella persona quando è partita, ed è la parte che quasi nessuno guarda prima di prenotare.</p>
+  <p>Per questo comincio da qui e non dalla mappa. Sette domande, tre minuti.</p>
+</div>
 
-  <!-- S0: INTAKE -->
-  <div class="screen active" id="s0">
-    <label class="field-label" for="inp-name">Il tuo nome</label>
-    <input class="field" type="text" id="inp-name" placeholder="Come ti chiami?" autocomplete="given-name" oninput="checkS0()">
-    <label class="field-label" for="inp-email">La tua email</label>
-    <input class="field" type="email" id="inp-email" placeholder="nome@esempio.com" autocomplete="email" oninput="checkS0()">
-    <p class="field-note">Riceverai il tuo profilo Travel DNA con le destinazioni più adatte a te in questo momento. Zero spam.</p>
-    <button class="btn-next" id="btn-s0" onclick="goTo('s1')">Inizia il test →</button>
+<div class="screen active" id="s0">
+  <label for="inp-name">Come ti chiami</label>
+  <input class="field" type="text" id="inp-name" placeholder="Nome" autocomplete="given-name" oninput="c0()">
+  <label for="inp-email">Email</label>
+  <input class="field" type="email" id="inp-email" placeholder="nome@esempio.com" autocomplete="email" oninput="c0()">
+  <p class="note">La uso solo per risponderti.</p>
+  <button class="next" id="b-s0" onclick="go('s1')">Cominciamo</button>
+</div>
+
+<div class="screen" id="s1">
+  <div class="bar"><span style="width:14%"></span></div>
+  <div class="q">Da dove parti, adesso?</div>
+  <div class="q-sub">Non dove vuoi andare. Da dove sei.</div>
+  <div class="opts" id="g-s1">
+    <button class="opt" onclick="p('s1','q1',0,this)">Ho bisogno di fermarmi.</button>
+    <button class="opt" onclick="p('s1','q1',1,this)">Voglio che questo viaggio mi lasci qualcosa.</button>
+    <button class="opt" onclick="p('s1','q1',2,this)">Voglio capire come vivono le persone in un posto diverso dal mio.</button>
+    <button class="opt" onclick="p('s1','q1',3,this)">Voglio condividerlo con qualcuno che conta.</button>
+    <button class="opt" onclick="p('s1','q1',4,this)">Voglio fare qualcosa di fisicamente impegnativo.</button>
+    <button class="opt" onclick="p('s1','q1',5,this)">Voglio godermi ogni cosa — il cibo, i posti, i dettagli.</button>
+    <button class="opt" onclick="p('s1','q1',6,this)">Voglio vedere molto e muovermi tanto.</button>
   </div>
+  <div class="nav"><button class="back" onclick="go('s0')">Indietro</button><button class="next" id="b-s1" onclick="go('s2')">Avanti</button></div>
+</div>
 
-  <!-- S1: MOTIVAZIONE -->
-  <div class="screen" id="s1">
-    <div class="progress-wrap">
-      <div class="progress-track"><div class="progress-fill" style="width:14%"></div></div>
-      <div class="progress-label">Domanda 1 di 7</div>
-    </div>
-    <div class="q-eyebrow">Motivazione</div>
-    <div class="q-title">Quando pensi a questo viaggio, quale frase senti più tua?</div>
-    <div class="q-note">Scegli adesso, non in generale.</div>
-    <div class="opts" id="grid-s1">
-      <button class="opt" onclick="pick('s1','q1',0,this)"><span class="opt-key">A</span><div class="opt-body"><div class="opt-main">Ho bisogno di staccare davvero</div><div class="opt-sub">Il rumore non si ferma mai. Ho bisogno di silenzio.</div></div></button>
-      <button class="opt" onclick="pick('s1','q1',1,this)"><span class="opt-key">B</span><div class="opt-body"><div class="opt-main">Voglio vivere qualcosa che mi cambia</div><div class="opt-sub">Torno sempre diverso da come sono partito.</div></div></button>
-      <button class="opt" onclick="pick('s1','q1',2,this)"><span class="opt-key">C</span><div class="opt-body"><div class="opt-main">Voglio scoprire una cultura diversa</div><div class="opt-sub">La storia, la gente, il modo di vivere.</div></div></button>
-      <button class="opt" onclick="pick('s1','q1',3,this)"><span class="opt-key">D</span><div class="opt-body"><div class="opt-main">Voglio condividere qualcosa di speciale</div><div class="opt-sub">Il viaggio vale quanto le persone con cui lo vivo.</div></div></button>
-      <button class="opt" onclick="pick('s1','q1',4,this)"><span class="opt-key">E</span><div class="opt-body"><div class="opt-main">Voglio mettermi alla prova fisicamente</div><div class="opt-sub">Il corpo come strumento del viaggio.</div></div></button>
-      <button class="opt" onclick="pick('s1','q1',5,this)"><span class="opt-key">F</span><div class="opt-body"><div class="opt-main">Voglio concedermi il meglio</div><div class="opt-sub">Ogni dettaglio deve essere curato al massimo.</div></div></button>
-      <button class="opt" onclick="pick('s1','q1',6,this)"><span class="opt-key">G</span><div class="opt-body"><div class="opt-main">Voglio vedere il più possibile</div><div class="opt-sub">Più posti, più storie, più esperienze.</div></div></button>
-    </div>
-    <div class="nav-row"><button class="btn-back" onclick="goTo('s0')">← Indietro</button><button class="btn-next" id="btn-s1" onclick="goTo('s2')">Avanti →</button></div>
+<div class="screen" id="s2">
+  <div class="bar"><span style="width:28%"></span></div>
+  <div class="q">Con chi sei, in questo viaggio?</div>
+  <div class="q-sub"></div>
+  <div class="opts" id="g-s2">
+    <button class="opt" onclick="p('s2','q5',0,this)">Solo</button>
+    <button class="opt" onclick="p('s2','q5',1,this)">Con il partner</button>
+    <button class="opt" onclick="p('s2','q5',2,this)">Con amici</button>
+    <button class="opt" onclick="p('s2','q5',3,this)">Con figli</button>
+    <button class="opt" onclick="p('s2','q5',4,this)">Non lo so ancora</button>
   </div>
+  <div class="nav"><button class="back" onclick="go('s1')">Indietro</button><button class="next" id="b-s2" onclick="go('s3')">Avanti</button></div>
+</div>
 
-  <!-- S2: DISAGIO -->
-  <div class="screen" id="s2">
-    <div class="progress-wrap">
-      <div class="progress-track"><div class="progress-fill" style="width:28%"></div></div>
-      <div class="progress-label">Domanda 2 di 7</div>
-    </div>
-    <div class="q-eyebrow">Tolleranza al disagio</div>
-    <div class="q-title">Saresti disposto a dormire male una notte per un'esperienza che non dimenticherai mai?</div>
-    <div class="q-note">Non come vorresti essere. Come sei davvero.</div>
-    <div class="opts" id="grid-s2">
-      <button class="opt" onclick="pick('s2','q2',0,this)"><span class="opt-key">A</span><div class="opt-body"><div class="opt-main">Sì, l'ho già fatto e lo rifarei</div><div class="opt-sub">Il disagio fa parte del prodotto.</div></div></button>
-      <button class="opt" onclick="pick('s2','q2',1,this)"><span class="opt-key">B</span><div class="opt-body"><div class="opt-main">Dipende da quanto vale l'esperienza</div><div class="opt-sub">Valuto caso per caso.</div></div></button>
-      <button class="opt" onclick="pick('s2','q2',2,this)"><span class="opt-key">C</span><div class="opt-body"><div class="opt-main">No — il riposo è parte del viaggio</div><div class="opt-sub">Se sto male, non riesco a godermi niente.</div></div></button>
-    </div>
-    <div class="nav-row"><button class="btn-back" onclick="goTo('s1')">← Indietro</button><button class="btn-next" id="btn-s2" onclick="goTo('s3')">Avanti →</button></div>
+<div class="screen" id="s3">
+  <div class="bar"><span style="width:42%"></span></div>
+  <div class="q">C'è una cosa che, se succede, questo viaggio è riuscito?</div>
+  <div class="q-sub">La prima che ti viene. Può essere una sensazione, un momento o una frase.</div>
+  <textarea class="field" id="inp-open" placeholder="Es. tornare con la testa più leggera, non guardare mai il telefono, fare colazione guardando il mare..." oninput="cO()"></textarea>
+  <div class="nav"><button class="back" onclick="go('s2')">Indietro</button><button class="next" id="b-s3" onclick="go('s4')">Avanti</button></div>
+</div>
+
+<div class="screen" id="s4">
+  <div class="bar"><span style="width:57%"></span></div>
+  <div class="q">Nei viaggi passati, come sei stato?</div>
+  <div class="q-sub">Non come vorresti essere. Come sei.</div>
+  <div class="opts" id="g-s4">
+    <button class="opt" onclick="p('s4','q2',0,this)">Ho scelto posti scomodi pur di vivere qualcosa di vero. Lo rifarei.</button>
+    <button class="opt" onclick="p('s4','q2',1,this)">Dipende. Non ho una regola fissa.</button>
+    <button class="opt" onclick="p('s4','q2',2,this)">Preferisco che le cose funzionino. Quando sto bene, mi godo tutto di più.</button>
   </div>
+  <div class="nav"><button class="back" onclick="go('s3')">Indietro</button><button class="next" id="b-s4" onclick="go('s5')">Avanti</button></div>
+</div>
 
-  <!-- S3: RITMO -->
-  <div class="screen" id="s3">
-    <div class="progress-wrap">
-      <div class="progress-track"><div class="progress-fill" style="width:42%"></div></div>
-      <div class="progress-label">Domanda 3 di 7</div>
-    </div>
-    <div class="q-eyebrow">Ritmo</div>
-    <div class="q-title">Arrivi in un posto nuovo senza un piano per il giorno. Come stai?</div>
-    <div class="q-note">La prima reazione istintiva, non quella ragionata.</div>
-    <div class="opts" id="grid-s3">
-      <button class="opt" onclick="pick('s3','q3',0,this)"><span class="opt-key">A</span><div class="opt-body"><div class="opt-main">Benissimo — è quello che preferisco</div><div class="opt-sub">La libertà è il piano.</div></div></button>
-      <button class="opt" onclick="pick('s3','q3',1,this)"><span class="opt-key">B</span><div class="opt-body"><div class="opt-main">Un po' di ansia, poi mi adatto</div><div class="opt-sub">Mi piace avere almeno una cosa fissa al giorno.</div></div></button>
-      <button class="opt" onclick="pick('s3','q3',2,this)"><span class="opt-key">C</span><div class="opt-body"><div class="opt-main">Preferisco sapere già cosa farò</div><div class="opt-sub">La pianificazione mi dà energia, non mi toglie libertà.</div></div></button>
-    </div>
-    <div class="nav-row"><button class="btn-back" onclick="goTo('s2')">← Indietro</button><button class="btn-next" id="btn-s3" onclick="goTo('s4')">Avanti →</button></div>
+<div class="screen" id="s5">
+  <div class="bar"><span style="width:71%"></span></div>
+  <div class="q">Arrivi in un posto nuovo senza un piano per il giorno. Come stai?</div>
+  <div class="q-sub">La prima reazione, non quella ragionata.</div>
+  <div class="opts" id="g-s5">
+    <button class="opt" onclick="p('s5','q3',0,this)">Benissimo. È quello che preferisco.</button>
+    <button class="opt" onclick="p('s5','q3',1,this)">Un po' di ansia, poi mi adatto.</button>
+    <button class="opt" onclick="p('s5','q3',2,this)">Preferisco sapere già cosa farò.</button>
   </div>
+  <div class="nav"><button class="back" onclick="go('s4')">Indietro</button><button class="next" id="b-s5" onclick="go('s6')">Avanti</button></div>
+</div>
 
-  <!-- S4: FRIZIONI -->
-  <div class="screen" id="s4">
-    <div class="progress-wrap">
-      <div class="progress-track"><div class="progress-fill" style="width:57%"></div></div>
-      <div class="progress-label">Domanda 4 di 7</div>
-    </div>
-    <div class="q-eyebrow">Frizioni intollerabili</div>
-    <div class="q-title">Cosa ti farebbe considerare questo viaggio un fallimento?</div>
-    <div class="q-note">La cosa che ti pesa di più. Una sola.</div>
-    <div class="opts" id="grid-s4">
-      <button class="opt" onclick="pick('s4','q4',0,this)"><span class="opt-key">A</span><div class="opt-body"><div class="opt-main">Tornare senza aver davvero staccato</div><div class="opt-sub">Uguale a prima, solo con un fuso orario diverso.</div></div></button>
-      <button class="opt" onclick="pick('s4','q4',1,this)"><span class="opt-key">B</span><div class="opt-body"><div class="opt-main">Alloggio o transfer mediocri</div><div class="opt-sub">Il contesto fisico condiziona tutto il resto.</div></div></button>
-      <button class="opt" onclick="pick('s4','q4',2,this)"><span class="opt-key">C</span><div class="opt-body"><div class="opt-main">Non essere entrato in contatto con la cultura locale</div><div class="opt-sub">Ho visto posti ma non ho capito niente.</div></div></button>
-      <button class="opt" onclick="pick('s4','q4',3,this)"><span class="opt-key">D</span><div class="opt-body"><div class="opt-main">Mangiare male per giorni</div><div class="opt-sub">Il cibo è parte centrale dell'esperienza.</div></div></button>
-      <button class="opt" onclick="pick('s4','q4',4,this)"><span class="opt-key">E</span><div class="opt-body"><div class="opt-main">Non aver fatto niente di fisicamente impegnativo</div><div class="opt-sub">Torno con la sensazione di non essermi mosso abbastanza.</div></div></button>
-      <button class="opt" onclick="pick('s4','q4',5,this)"><span class="opt-key">F</span><div class="opt-body"><div class="opt-main">Non aver vissuto almeno un momento memorabile</div><div class="opt-sub">Niente che mi racconterò tra dieci anni.</div></div></button>
-    </div>
-    <div class="nav-row"><button class="btn-back" onclick="goTo('s3')">← Indietro</button><button class="btn-next" id="btn-s4" onclick="goTo('s5')">Avanti →</button></div>
+<div class="screen" id="s6">
+  <div class="bar"><span style="width:85%"></span></div>
+  <div class="q">Cosa trasformerebbe questo viaggio in un fallimento?</div>
+  <div class="q-sub">Una sola cosa. Quella che pesa di più.</div>
+  <div class="opts" id="g-s6">
+    <button class="opt" onclick="p('s6','q4',0,this)">Tornare esattamente come sono partito.</button>
+    <button class="opt" onclick="p('s6','q4',1,this)">Un alloggio o un transfer che non funziona.</button>
+    <button class="opt" onclick="p('s6','q4',2,this)">Aver visto senza capire niente.</button>
+    <button class="opt" onclick="p('s6','q4',3,this)">Mangiare male per giorni.</button>
+    <button class="opt" onclick="p('s6','q4',4,this)">Non aver fatto niente di fisicamente impegnativo.</button>
+    <button class="opt" onclick="p('s6','q4',5,this)">Non aver vissuto niente che resterà.</button>
   </div>
+  <div class="nav"><button class="back" onclick="go('s5')">Indietro</button><button class="next" id="b-s6" onclick="go('s7')">Avanti</button></div>
+</div>
 
-  <!-- S5: COMPAGNI -->
-  <div class="screen" id="s5">
-    <div class="progress-wrap">
-      <div class="progress-track"><div class="progress-fill" style="width:71%"></div></div>
-      <div class="progress-label">Domanda 5 di 7</div>
-    </div>
-    <div class="q-eyebrow">Contesto</div>
-    <div class="q-title">Con chi viaggi?</div>
-    <div class="q-note">Per questo viaggio specifico.</div>
-    <div class="opts" id="grid-s5">
-      <button class="opt" onclick="pick('s5','q5',0,this)"><span class="opt-key">A</span><div class="opt-body"><div class="opt-main">Solo</div></div></button>
-      <button class="opt" onclick="pick('s5','q5',1,this)"><span class="opt-key">B</span><div class="opt-body"><div class="opt-main">Con il partner</div></div></button>
-      <button class="opt" onclick="pick('s5','q5',2,this)"><span class="opt-key">C</span><div class="opt-body"><div class="opt-main">Con amici</div></div></button>
-      <button class="opt" onclick="pick('s5','q5',3,this)"><span class="opt-key">D</span><div class="opt-body"><div class="opt-main">Con la famiglia / figli</div></div></button>
-      <button class="opt" onclick="pick('s5','q5',4,this)"><span class="opt-key">E</span><div class="opt-body"><div class="opt-main">Non lo so ancora</div></div></button>
-    </div>
-    <div class="nav-row"><button class="btn-back" onclick="goTo('s4')">← Indietro</button><button class="btn-next" id="btn-s5" onclick="goTo('s6')">Avanti →</button></div>
+<div class="screen" id="s7">
+  <div class="bar"><span style="width:100%"></span></div>
+  <div class="q">Come useresti il budget?</div>
+  <div class="q-sub">Non quanto hai. Come lo vorresti spendere.</div>
+  <div class="opts" id="g-s7">
+    <button class="opt" onclick="p('s7','q6',0,this)">Spenderei poco in volo e alloggio per avere più per le esperienze.</button>
+    <button class="opt" onclick="p('s7','q6',1,this)">Investirei sull'alloggio — è lì che recupero.</button>
+    <button class="opt" onclick="p('s7','q6',2,this)">Metterei tutto sulle esperienze — il cibo, i posti, le attività.</button>
+    <button class="opt" onclick="p('s7','q6',3,this)">Preferirei delegare tutto — arrivare e trovare tutto già fatto bene.</button>
   </div>
+  <div class="nav"><button class="back" onclick="go('s6')">Indietro</button><button class="next" id="b-s7" onclick="send()">Vedi cosa ne esce</button></div>
+</div>
 
-  <!-- S6: BUDGET -->
-  <div class="screen" id="s6">
-    <div class="progress-wrap">
-      <div class="progress-track"><div class="progress-fill" style="width:85%"></div></div>
-      <div class="progress-label">Domanda 6 di 7</div>
-    </div>
-    <div class="q-eyebrow">Budget</div>
-    <div class="q-title">Budget totale indicativo (voli inclusi)?</div>
-    <div class="opts" id="grid-s6">
-      <button class="opt" onclick="pick('s6','q6',0,this)"><span class="opt-key">A</span><div class="opt-body"><div class="opt-main">Meno di 1.000€</div></div></button>
-      <button class="opt" onclick="pick('s6','q6',1,this)"><span class="opt-key">B</span><div class="opt-body"><div class="opt-main">1.000 – 2.500€</div></div></button>
-      <button class="opt" onclick="pick('s6','q6',2,this)"><span class="opt-key">C</span><div class="opt-body"><div class="opt-main">2.500 – 5.000€</div></div></button>
-      <button class="opt" onclick="pick('s6','q6',3,this)"><span class="opt-key">D</span><div class="opt-body"><div class="opt-main">5.000€+</div></div></button>
-    </div>
-    <div class="nav-row"><button class="btn-back" onclick="goTo('s5')">← Indietro</button><button class="btn-next" id="btn-s6" onclick="goTo('s7')">Avanti →</button></div>
-  </div>
+<div class="screen" id="s-wait">
+  <div class="wait"><div class="dot3"><i></i><i></i><i></i></div></div>
+</div>
 
-  <!-- S7: DOMANDA APERTA -->
-  <div class="screen" id="s7">
-    <div class="progress-wrap">
-      <div class="progress-track"><div class="progress-fill" style="width:100%"></div></div>
-      <div class="progress-label">Ultima domanda</div>
+<div class="screen" id="s-out">
+  <div class="letter">
+    <div class="hi" id="o-hi"></div>
+    <div id="o-open"></div>
+    <div class="lab">La direzione che vedo</div>
+    <div class="read" id="o-read"></div>
+    <div id="o-body"></div>
+    <hr class="r">
+    <div class="lab">Da qui inizierei</div>
+    <div id="o-dests"></div>
+    <hr class="r">
+    <div class="lab">Se dovessi dirti una cosa sola</div>
+    <div class="warn" id="o-warn"></div>
+    <div class="close">
+      <p>Queste tre non sono un itinerario. Sono tre direzioni, e servono soprattutto a capire quale ti attira e perché.</p>
+      <p>Di solito è lì che comincia la parte interessante: quando mi dici cosa ti convince e cosa no. Da quella conversazione esce un viaggio che assomiglia a te, non a un catalogo.</p>
+      <div class="punch">Trovare i posti è la parte facile.<br>Il resto viene parlando.</div>
+      <div class="n">Davide</div>
     </div>
-    <div class="q-eyebrow">La domanda più importante</div>
-    <div class="q-title">Se questo viaggio fosse perfetto, cosa sarebbe successo almeno una volta?</div>
-    <div class="q-note">Scrivi la prima cosa che ti viene in mente. Una frase basta.</div>
-    <textarea class="field" id="inp-open" placeholder="Raccontamelo..." oninput="checkOpen()"></textarea>
-    <div class="nav-row"><button class="btn-back" onclick="goTo('s6')">← Indietro</button><button class="btn-next" id="btn-s7" onclick="calcAndShow()">Vedi il tuo profilo →</button></div>
-  </div>
-
-  <!-- LOADING -->
-  <div class="screen" id="s-loading">
-    <div class="loading-wrap">
-      <div class="spinner"></div>
-      <div class="loading-title">Analizzando il tuo Travel DNA</div>
-      <div class="loading-sub">Incrocio motivazione, ritmo e tolleranza al disagio…</div>
-      <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+    <div class="ask">
+      <h5>Una cosa mi interessa davvero.</h5>
+      <div class="s">C'è qualcosa che hai letto e ti ha fatto pensare «sì, questo mi descrive»? O qualcosa che non c'entra niente con te? Scrivimelo — anche due righe.</div>
+      <textarea class="field" id="inp-fb" placeholder="Dimmi come ti è sembrato" oninput="cF()"></textarea>
+      <div class="go"><button id="o-btn">Mandami questa risposta</button></div>
     </div>
   </div>
+  <div class="again"><button onclick="reset()">Rifai il test</button></div>
+</div>
 
-  <!-- RESULT -->
-  <div class="screen" id="s-result">
-    <div class="result-eyebrow" id="r-eyebrow">Archetipo 01 / 15</div>
-    <div class="result-name" id="r-name"></div>
-    <div class="result-sub" id="r-sub"></div>
-    <div class="result-phrase" id="r-phrase"></div>
-
-    <div class="dna-section">
-      <div class="dna-label-row">Il tuo profilo DNA</div>
-      <div id="r-dna"></div>
-    </div>
-
-    <div class="rule"></div>
-
-    <div class="section-label">Destinazioni ideali per te adesso</div>
-    <div class="tag-row" id="r-dest-yes"></div>
-
-    <div class="section-label">Destinazioni da evitare</div>
-    <div class="tag-row" id="r-dest-no"></div>
-
-    <div class="rule"></div>
-
-    <div class="section-label">L'errore tipico del tuo archetipo</div>
-    <div class="error-box">
-      <div class="error-title" id="r-err-title"></div>
-      <div class="error-why" id="r-err-why"></div>
-    </div>
-
-    <div class="rule"></div>
-
-    <div class="rating-section">
-      <div class="rating-q">Quanto ti riconosci in questo archetipo?</div>
-      <div class="rating-note">È la domanda più importante. Rispondici onestamente.</div>
-      <div class="rating-scale" id="rating-scale">
-        <button class="rbtn" onclick="rate(1,this)">1</button>
-        <button class="rbtn" onclick="rate(2,this)">2</button>
-        <button class="rbtn" onclick="rate(3,this)">3</button>
-        <button class="rbtn" onclick="rate(4,this)">4</button>
-        <button class="rbtn" onclick="rate(5,this)">5</button>
-        <button class="rbtn" onclick="rate(6,this)">6</button>
-        <button class="rbtn" onclick="rate(7,this)">7</button>
-        <button class="rbtn" onclick="rate(8,this)">8</button>
-        <button class="rbtn" onclick="rate(9,this)">9</button>
-        <button class="rbtn" onclick="rate(10,this)">10</button>
-      </div>
-      <div class="rating-ends"><span>Per niente</span><span>Perfettamente</span></div>
-      <div class="rating-feedback" id="r-feedback"></div>
-    </div>
-
-    <div class="cta-box" id="r-cta">
-      <div class="cta-title">Vuoi il viaggio progettato su questo profilo?</div>
-      <div class="cta-sub" id="r-cta-sub"></div>
-      <button class="cta-btn" id="r-cta-btn">Contatta Davide →</button>
-    </div>
-
-    <div class="restart-link">
-      <button onclick="restart()">Ricomincia il test</button>
-    </div>
-  </div>
-
-</div><!-- /shell -->
+</div>
 
 <script>
-const ans = {};
+const a={};
 
-const A = [
-  {id:1,name:"Il Fuggiasco",sub:"Motivazione: fuga e reset mentale",phrase:"Non so dove voglio andare. So solo che devo partire.",
-   si:["Algarve","Madeira","Puglia profonda","Azzorre","Islanda rurale"],no:["Tokyo","New York","Barcellona in agosto","Tour multi-città"],
-   errT:"Itinerario denso per sentirsi produttivo",errW:"Compensa l'assenza di motivazione riempiendosi di agenda. Il risultato è tornare più stanco di prima, senza aver ottenuto il reset cercato.",
-   cta:"Progetto un viaggio con bassa densità, alta qualità di presenza e zero agenda obbligatoria.",
-   dna:{avventura:25,struttura:35,premium:45,profondità:60}},
-  {id:2,name:"Il Collezionista",sub:"Motivazione: varietà e status esperienziale",phrase:"Tre paesi in dieci giorni? Potevo fare di meglio.",
-   si:["SEA multi-paese","Balcani","Giappone classico","Marocco + Portogallo","Colombia + Perù"],no:["Resort tutto incluso","Maldive","Una sola isola per 10 giorni"],
-   errT:"Troppe tappe in troppo poco tempo",errW:"Sei paesi in dodici giorni: nessuno viene capito davvero. La quantità finisce per cannibalizzare la qualità.",
-   cta:"Progetto un itinerario multi-destinazione con logistica efficiente e alta resa esperienziale.",
-   dna:{avventura:55,struttura:70,premium:40,profondità:25}},
-  {id:3,name:"Il Cercatore",sub:"Motivazione: trasformazione e senso",phrase:"Torno sempre diverso da come sono partito. È questo il punto.",
-   si:["Georgia — Tbilisi e Caucaso","Iran — Isfahan e Shiraz","Etiopia","Bolivia","India del Sud"],no:["Maldive","Dubai","Cancún","Crociere"],
-   errT:"Difficoltà logistica scambiata per profondità",errW:"Un paese hard to reach non garantisce trasformazione. La profondità dipende dalla qualità delle relazioni, non dalla distanza.",
-   cta:"Progetto un viaggio ad alta intensità culturale con accesso a contesti non turistici.",
-   dna:{avventura:75,struttura:30,premium:25,profondità:90}},
-  {id:4,name:"Il Ricostituente",sub:"Motivazione: recupero e qualità garantita",phrase:"Non voglio sorprese. Voglio recuperare.",
-   si:["Maldive","Bali resort","Santorini fuori stagione","Amalfi","Toscana villa"],no:["Backpacking","India","Etiopia","Camper fai-da-te"],
-   errT:"Scegliere destinazioni interessanti invece di comode",errW:"Un paese stimolante richiede energia che non hai. Il viaggio diventa faticoso invece che rigenerante.",
-   cta:"Progetto un viaggio con qualità garantita in ogni dettaglio e zero logistica fai-da-te.",
-   dna:{avventura:15,struttura:80,premium:85,profondità:20}},
-  {id:5,name:"Il Connettore",sub:"Motivazione: relazioni e condivisione",phrase:"Il posto conta meno di chi mi è accanto.",
-   si:["Toscana","Grecia isole","Portogallo","Giappone","Costa Rica"],no:["Destinazioni divisive","Avventura estrema","Mete politicamente instabili"],
-   errT:"Non allineare le aspettative prima di partire",errW:"'Andiamo in vacanza' significa cose diverse per persone diverse. Una conversazione esplicita evita il 90% dei conflitti.",
-   cta:"Progetto un viaggio costruito attorno alla dinamica del gruppo, con esperienze condivisibili per tutti.",
-   dna:{avventura:40,struttura:60,premium:50,profondità:45}},
-  {id:6,name:"L'Edonista",sub:"Motivazione: piacere sensoriale elevato",phrase:"Prenoto prima il ristorante. Il volo viene dopo.",
-   si:["San Sebastián","Kyoto","Lima","Lione","Napoli e Campania"],no:["Tutto incluso","Mete balneari generiche","Hotel senza identità"],
-   errT:"Affidarsi a guide generiche invece di fonti specializzate",errW:"TripAdvisor ottimizza per il turista medio. Un pasto sbagliato in una destinazione gastronomica è un'occasione persa irreversibile.",
-   cta:"Progetto un itinerario gastronomico e culturale con selezione curata di ristoranti, mercati e produttori.",
-   dna:{avventura:30,struttura:65,premium:80,profondità:55}},
-  {id:7,name:"L'Avventuriero Fisico",sub:"Motivazione: performance fisica in natura",phrase:"Se non mi fa male almeno un po', non è stato un viaggio vero.",
-   si:["Patagonia","Dolomiti","Nepal","Azzorre","Norvegia — Lofoten"],no:["Città d'arte","Resort","Tour in pullman","Crociere"],
-   errT:"Sovrastimare la propria forma fisica attuale",errW:"La forma di tre anni fa non è quella di oggi. Un trekking calibrato male produce infortuni in zone remote.",
-   cta:"Progetto un viaggio outdoor con percorsi calibrati sulla tua forma attuale e la stagione ottimale.",
-   dna:{avventura:95,struttura:40,premium:25,profondità:50}},
-  {id:8,name:"Il Nomade Lento",sub:"Motivazione: immersione nella vita locale",phrase:"Non visito i posti. Ci vivo per un po'.",
-   si:["Tbilisi","Oaxaca","Chiang Mai","Sarajevo","Medellín"],no:["Hotel turistici","Venezia in estate","Itinerari veloci","Tour guidati"],
-   errT:"Prenotare tutto in anticipo",errW:"La flessibilità è il vero valore di questo archetipo. Ogni notte prenotata riduce la capacità di fermarsi dove funziona.",
-   cta:"Progetto una base operativa con alloggio locale e accesso alla vita quotidiana reale.",
-   dna:{avventura:50,struttura:20,premium:20,profondità:85}},
-  {id:9,name:"Il Culturale Sistematico",sub:"Motivazione: conoscenza e patrimonio storico",phrase:"Arrivo già sapendo tutto. Vengo a verificare dal vivo.",
-   si:["Egitto — Luxor e Aswan","Grecia classica","Perù — Cusco e Valle Sacra","Cambogia — Angkor","Iran — Persepoli e Isfahan"],no:["Maldive","Ibiza","Destinazioni balneari pure"],
-   errT:"Itinerari troppo ambiziosi per una visita seria",errW:"Karnak o Angkor Wat richiedono ore, non minuti. L'ambizione quantitativa è il nemico della profondità.",
-   cta:"Progetto un itinerario culturale con prenotazioni anticipate e tempo reale per la contemplazione.",
-   dna:{avventura:35,struttura:80,premium:55,profondità:80}},
-  {id:10,name:"Il Lusso Discreto",sub:"Motivazione: eccellenza senza ostentazione",phrase:"Voglio il meglio. Ma non che si sappia che l'ho cercato.",
-   si:["Bhutan","Giordania — Wadi Rum","Puglia masserie","Giappone ryokan","Namibia lodge"],no:["Dubai","Mykonos in agosto","Barcellona in agosto","Hotel di catena"],
-   errT:"Fidarsi delle classifiche standard di lusso",errW:"Un hotel da mille euro a notte può avere clientela rumorosa e atmosfera di massa. Il contesto degrada l'esperienza indipendentemente dalla qualità della struttura.",
-   cta:"Progetto un viaggio con strutture rare e discrete, lontane dai circuiti premium di massa.",
-   dna:{avventura:25,struttura:55,premium:95,profondità:60}},
-  {id:11,name:"Il Genitore Esploratore",sub:"Motivazione: avventura autentica con figli",phrase:"Non ho smesso di esplorare. Ho aggiunto dei compagni di viaggio.",
-   si:["Costa Rica","Giappone","Portogallo","Slovenia","Namibia"],no:["India rurale","Logistica complessa","Itinerari troppo densi","Voli con scali lunghi"],
-   errT:"Replicare i viaggi pre-figli senza adattarli",errW:"L'India in backpacking che funzionava a 25 anni non funziona con un bambino di 4. Non è rinuncia — è progettazione realistica.",
-   cta:"Progetto un viaggio autentico che funziona per ogni età del gruppo, con logistica a prova di imprevisto.",
-   dna:{avventura:55,struttura:65,premium:55,profondità:50}},
-  {id:12,name:"Il Business Escapist",sub:"Motivazione: massima qualità in poco tempo",phrase:"Ho quattro giorni. Voglio che valgano dieci.",
-   si:["Lisbona","Marrakech","Amsterdam","Vienna","Tokyo 4gg"],no:["Voli con scali lunghi","Logistica complessa","Alta stagione nelle mete popolari"],
-   errT:"Fai-da-te in destinazioni nuove",errW:"La ricerca, la comparazione, le prenotazioni: ogni micro-decisione consuma tempo e energia cognitiva che non hai.",
-   cta:"Progetto ogni dettaglio in anticipo: volo diretto, hotel certo, ristoranti prenotati, zero attrito.",
-   dna:{avventura:40,struttura:90,premium:75,profondità:35}},
-  {id:13,name:"Il Pellegrino Laico",sub:"Motivazione: transizione e trasformazione interiore",phrase:"C'è un prima e un dopo. Il viaggio è il confine.",
-   si:["Camino de Santiago","Islanda","Kyoto monasteri","Deserto del Sahara","Nepal — Annapurna"],no:["Ibiza","Las Vegas","Crociere","Mete festose di gruppo"],
-   errT:"Scegliere destinazioni troppo stimolanti",errW:"Tokyo o New York amplificano il rumore invece di ridurlo. La stimolazione impedisce l'elaborazione che è il vero scopo del viaggio.",
-   cta:"Progetto un viaggio con forza simbolica, spazio per il silenzio e struttura che contiene senza soffocare.",
-   dna:{avventura:60,struttura:35,premium:30,profondità:95}},
-  {id:14,name:"Il Curioso Gastronomico",sub:"Motivazione: culture attraverso il cibo",phrase:"Arrivo a destinazione con la lista dei ristoranti. Il resto improvviso.",
-   si:["Giappone","Perù — Lima","Messico — Oaxaca","Georgia","Turchia — Istanbul"],no:["Resort all-inclusive","Mete balneari minori","Hotel con solo cucina internazionale"],
-   errT:"Affidarsi a fonti generiche invece di specializzate",errW:"TripAdvisor ottimizza per il turista medio. La gastronomia autentica non si trova sulle liste generiche.",
-   cta:"Progetto un itinerario gastronomico con mercati, produttori e trattorie senza menù in inglese.",
-   dna:{avventura:45,struttura:50,premium:60,profondità:75}},
-  {id:15,name:"Il Resetter Digitale",sub:"Motivazione: disconnessione totale",phrase:"Voglio sparire. Letteralmente.",
-   si:["Isole Faroe","Svalbard","Outer Hebrides","Patagonia lodge","Bhutan"],no:["Città","Resort con business center","Destinazioni Instagram-driven"],
-   errT:"Scegliere destinazioni belle ma iper-connesse",errW:"Un resort di lusso può avere wifi 5G ovunque. La bellezza non produce disconnessione — la produce la struttura tecnologica del posto.",
-   cta:"Progetto un ritiro in connettività naturalmente limitata, con attività che richiedono presenza fisica totale.",
-   dna:{avventura:50,struttura:30,premium:60,profondità:70}}
-];
+const P={
 
-const FB = {
-  low:"Grazie per l'onestà. Probabilmente il tuo profilo è ibrido o il sistema ha ancora margine di miglioramento. Te lo approfondisco quando ti invio l'analisi completa.",
-  mid:"Buon segnale. Probabilmente hai tratti di più archetipi. Te lo racconto nel dettaglio quando ti invio il profilo.",
-  high:"Perfetto. Significa che il sistema funziona. Costruiamo il viaggio su questa base."
+fuggiasco:{
+ id:"Fuggiasco",
+ read:"Non sai dove vuoi andare. Sai che devi andare.",
+ body:`<p class="t">È stata la prima cosa che ho pensato. Non c'è una destinazione dietro le tue risposte, c'è un bisogno di uscire dal raggio — e sono due cose diverse, che portano a viaggi diversi.</p>
+<p class="t">Da lì nasce l'errore più comune, cioè riempire i giorni perché fermarsi sembra uno spreco di ferie. Ma nel tuo caso funziona al contrario: meno cose ci metti dentro, meglio funziona.</p>`,
+ d:[
+  {n:"Madeira",c:"Portogallo",m:"Da ottobre ad aprile",t:"Si cammina per ore lungo le levada senza incontrare nessuno. Poi si scende, si mangia in un posto decente, e non hai dovuto organizzare niente. Ci pensa l'isola. Fuori stagione i prezzi crollano e il clima resta quello. Se dovessi indicartene una sola, sarebbe questa."},
+  {n:"Valle d'Itria",c:"Puglia · Italia",m:"Maggio o settembre",t:"Una masseria tra Cisternino e Locorotondo, e basta. Muri a secco, ulivi, paesi bianchi che si raggiungono in mezz'ora di strade piccole. Non c'è niente da vedere, ed è esattamente il punto."},
+  {n:"Kornati",c:"Croazia",m:"Giugno o settembre",t:"Un arcipelago quasi disabitato, raggiungibile in barca dalla costa dalmata. Si prende casa su Murter e da lì si esce in mare senza meta. È il tipo di posto che funziona quando serve silenzio e non si ha voglia di affrontare un viaggio lungo."}
+ ],
+ w:"Non prenotare più di una base. Sarai tentato di spezzare il viaggio in due o tre posti per sfruttarlo meglio, ma ogni cambio di alloggio è mezza giornata persa e un reset che ti riporta al punto di partenza. Una base, il tempo che hai, e la libertà di non muoverti."
+},
+
+ricostituente:{
+ id:"Ricostituente",
+ read:"Non ti serve un viaggio interessante. Ti serve un viaggio che funziona.",
+ body:`<p class="t">C'è una differenza tra chi vuole staccare e chi vuole recuperare, e mi sembra che tu sia nel secondo gruppo. Non ti serve l'avventura: ti serve che le cose funzionino, perché ogni imprevisto costa energia che adesso non hai da spendere.</p>
+<p class="t">Non è pigrizia, e non credo tu debba giustificarti. È quello che chiede chi nella vita normale decide tutto e per una volta vorrebbe non decidere niente.</p>`,
+ d:[
+  {n:"Una quinta a Madeira o nelle Azzorre",c:"Portogallo",m:"Aprile, maggio, ottobre",t:"Sono case padronali riconvertite: sei o otto camere, colazione seria, personale che c'è quando serve e sparisce quando no. Costano meno di un resort e ci si dorme molto meglio, perché non c'è animazione né rumore."},
+  {n:"Ischia, lato Sant'Angelo",c:"Campania · Italia",m:"Maggio o ottobre",t:"Ischia e non Amalfi per una ragione sola: l'acqua termale. Non è un extra da spa, è il motivo per cui l'isola esiste, e nel tuo caso è il motore del viaggio. Fuori stagione Sant'Angelo è un paese di pescatori con quattro alberghi buoni e nessuna macchina."},
+  {n:"Penisola di Nicoya",c:"Costa Rica",m:"Da dicembre ad aprile",t:"Questa la propongo raramente, perché richiede più organizzazione e non tutti hanno voglia di affrontarla. Ma se hai due settimane vere è la scelta migliore: lodge piccoli, cucina sana, e una volta arrivato non ti sposti più."}
+ ],
+ w:"Non scegliere il posto più interessante. Scegli quello dove non dovrai risolvere nessun problema. Sembra banale, ma la differenza tra un viaggio che ti rimette in piedi e uno che ti svuota sta quasi sempre nel trasferimento e nel letto, non nel panorama."
+},
+
+resetter:{
+ id:"Resetter",
+ read:"Non vuoi decidere di staccare. Vuoi andare dove non prende.",
+ body:`<p class="t">La disconnessione volontaria non funziona quasi mai, e probabilmente lo sai già per esperienza: se il segnale c'è, prima o poi il telefono lo guardi. Non è debolezza, è come siamo fatti adesso. Per questo la variabile su cui costruirei il tuo viaggio non è la bellezza del posto, ma la copertura di rete — che si può verificare prima di prenotare, e che quasi nessuno verifica.</p>`,
+ d:[
+  {n:"Isole Fær Øer",c:"Danimarca",m:"Da maggio a settembre",t:"Fuori dalla capitale la connessione è irregolare e nei villaggi del nord sparisce del tutto. Le giornate si organizzano sul meteo, che cambia ogni due ore e costringe a guardarsi attorno invece che in basso."},
+  {n:"Ebridi Esterne",c:"Scozia · Regno Unito",m:"Da maggio a settembre",t:"Harris e Lewis. Spiagge bianche su acqua trasparente a una latitudine dove non te lo aspetti, villaggi da trenta persone, cottage senza wifi. Ci si arriva in traghetto, e la traversata comincia già a fare il lavoro."},
+  {n:"Jokkmokk e dintorni",c:"Lapponia · Svezia",m:"Febbraio-marzo, o fine estate",t:"Se dovessi scommettere, direi che è questa la più adatta a te. Cabin senza elettricità di rete, stufa a legna, nessun vicino per chilometri. In febbraio aurore e silenzio della neve; a fine agosto luce che non finisce mai."}
+ ],
+ w:"Non portare il computer per le emergenze. Non esiste il solo-per-le-emergenze: il portatile aperto è il portatile usato. Se davvero non riesci a lasciarlo a casa, il problema non è il viaggio, ed è meglio guardarlo adesso che a metà vacanza."
+},
+
+cercatore:{
+ id:"Cercatore",
+ read:"Vuoi che qualcosa ti costringa a rivedere una tua certezza.",
+ body:`<p class="t">Ho l'impressione che tu viaggi per essere messo in discussione. Non ti interessa la bellezza in sé, ti interessa incontrare un modo di vivere abbastanza distante dal tuo da farti dubitare di qualcosa che davi per assodato.</p>
+<p class="t">Qui forse mi espongo un po', ma te lo dico lo stesso perché è l'errore che vedo fare più spesso: confondere la scomodità con la profondità. Un paese difficile da raggiungere non ti cambia per il fatto di essere difficile. Ti cambiano le persone che incontri, e quelle si incontrano solo se il viaggio è costruito per farle incontrare.</p>`,
+ d:[
+  {n:"Kakheti e Svaneti",c:"Georgia",m:"Maggio-giugno, settembre-ottobre",t:"Tbilisi è solo l'ingresso, il paese vero comincia più in là. Ortodossia, tracce persiane, eredità sovietica. E un'ospitalità che non è commerciale: quando ti invitano a tavola non ti stanno vendendo niente. È la destinazione che indico più spesso a chi risponde come te."},
+  {n:"Lalibela e il Tigray",c:"Etiopia",m:"Da ottobre a marzo",t:"Un cristianesimo che millecinquecento anni fa ha preso un'altra strada, e che è ancora praticato ogni giorno — non conservato in un museo. Serve preparazione e una guida locale seria, ma è la cosa più lontana dalle tue categorie che si possa raggiungere."},
+  {n:"Kirghizistan",c:"Asia centrale",m:"Da giugno a settembre",t:"Questa probabilmente non l'avevi presa in considerazione. Si dorme nelle yurte delle famiglie nomadi in alta quota, si mangia quello che mangiano loro, si sposta il bestiame con loro. Non c'è nessuna struttura turistica in mezzo, ed è esattamente il motivo per cui funziona nel tuo caso."}
+ ],
+ w:"Non riempire l'itinerario. La conversazione che ti cambierà il viaggio non è in programma, e succede solo se hai un pomeriggio vuoto in cui puoi restare invece di ripartire. Lascia almeno un terzo dei giorni senza niente scritto."
+},
+
+pellegrino:{
+ id:"Pellegrino",
+ read:"Non stai cercando una vacanza. Stai cercando spazio.",
+ body:`<p class="t">Dalle tue risposte non emerge un posto da raggiungere, ma qualcosa da attraversare. È la sensazione più forte che mi è rimasta: sta cambiando qualcosa, o è appena cambiato, e ti serve distanza fisica per guardarlo da fuori.</p>
+<p class="t">Per un viaggio così serve una forma che contenga senza soffocare. Troppa libertà e ti perdi, troppo programma e non resta spazio per pensare. Il cammino a piedi è la soluzione che l'umanità ha trovato per questo problema, e dopo secoli è ancora la migliore.</p>`,
+ d:[
+  {n:"Cammino Portoghese, da Porto",c:"Portogallo · Spagna",m:"Aprile-giugno, settembre-ottobre",t:"Meno affollato del Francese, dodici giorni invece di trenta. Ogni giorno c'è un solo obiettivo: arrivare alla tappa. Il resto della testa si libera da solo. E la sera si incontrano altre persone che sono lì per ragioni che non devi spiegare a nessuno, il che nel tuo caso conta parecchio."},
+  {n:"Islanda, in auto e senza itinerario",c:"Islanda",m:"Da giugno a settembre",t:"Se camminare non fa per te, l'alternativa è la scala. Mette davanti a proporzioni che rendono evidente quanto si è piccoli, e lo fa fisicamente, non a parole."},
+  {n:"Kumano Kodo",c:"Kansai · Giappone",m:"Marzo-maggio, ottobre-novembre",t:"Il cammino di pellegrinaggio giapponese: mille anni, foreste di cedri, onsen la sera. Il più impegnativo da organizzare dei tre. È la scelta giusta per chi vuole che il percorso sia già deciso da qualcun altro, ma vuole camminarlo da solo."}
+ ],
+ w:"Non partire con una domanda a cui vuoi una risposta precisa. Chi parte pensando «capirò se lasciare il lavoro» quasi sempre torna deluso. Chi parte lasciando spazio torna con qualcosa che non aveva previsto, e di solito serve più della risposta che cercava."
+},
+
+nomade:{
+ id:"Nomade",
+ read:"Non vuoi visitare un posto. Vuoi abitarlo per un po'.",
+ body:`<p class="t">Mi sembra di vedere una differenza precisa tra te e chi fa turismo, e non è dove vai: è quanto stai. Ti interessa il mercato del martedì, il bar dove ti riconoscono dopo cinque giorni, il quartiere dove non c'è niente da vedere — cose che si aprono solo col tempo, e che infatti non trovi su nessuna guida. Il che sposta il problema: quello che conta per te non è la destinazione, ma quanto puoi restarci e quanto ti costa restarci.</p>`,
+ d:[
+  {n:"Tbilisi",c:"Georgia",m:"Aprile-giugno, settembre-ottobre",t:"Costo della vita basso abbastanza da permettersi settimane invece di giorni, quartieri veri non ancora consumati, e un visto che lascia stare un anno. Sololaki e Vera per abitarci, non Rustaveli."},
+  {n:"Oaxaca",c:"Messico",m:"Da ottobre ad aprile",t:"Non è la capitale culturale del Messico in senso turistico. Lo è nel senso che ci sono sedici lingue indigene ancora vive, un artigianato che non è souvenir e un mercato che è il vero centro della città. Appartamento a Jalatlaco, spesa alla Merced ogni mattina, e in tre settimane si comincia a capire qualcosa."},
+  {n:"Tirana",c:"Albania",m:"Aprile-giugno, settembre-ottobre",t:"Questa non se l'aspetta nessuno. Tra i costi più bassi d'Europa, e una città che sta cambiando in fretta e dove sei ancora una curiosità e non un cliente. Dà molto di quello che si cerca in Asia, senza il viaggio che l'Asia richiede."}
+ ],
+ w:"Non prenotare tutte le notti prima di partire. È l'errore che sabota esattamente quello che cerchi: se un posto funziona vuoi poterti fermare, se non funziona vuoi poterti spostare. Prenota la prima settimana e lascia aperto il resto."
+},
+
+culturale:{
+ id:"Culturale",
+ read:"Non vuoi vedere. Vuoi capire — e sei disposto a prepararti.",
+ body:`<p class="t">Credo che tu non sia uno che visita, ma uno che studia e poi va a verificare dal vivo. Il tuo viaggio si costruisce prima di partire quanto durante. Poche persone sono disposte a farlo.</p>
+<p class="t">La conseguenza pratica è controintuitiva: ti servono meno posti, non di più. Un sito visitato in sei ore con una guida seria vale dieci siti attraversati in quaranta minuti l'uno.</p>`,
+ d:[
+  {n:"Sicilia greca e normanna",c:"Italia",m:"Marzo-maggio, ottobre-novembre",t:"Prima della Grecia, perché la stratificazione è più densa: greco, romano, arabo, normanno, barocco, tutto concentrato in poco spazio. Selinunte all'alba è vuota. La Cappella Palatina mette tre civiltà nella stessa stanza."},
+  {n:"Luxor e la valle del Nilo",c:"Egitto",m:"Da novembre a marzo",t:"Karnak vuole due mattine, non due ore. Con un egittologo — non una guida generica — la differenza è tra guardare colonne e leggere trent'anni di politica scolpiti sulle pareti. Dormendo sulla riva ovest, non a Luxor centro."},
+  {n:"Göbekli Tepe e Anatolia orientale",c:"Turchia",m:"Maggio-giugno, settembre-ottobre",t:"Undicimila anni: settemila prima di Stonehenge. È la scoperta che ha riscritto quello che si credeva di sapere sull'origine della civiltà, e ci si entra ancora quasi senza fila. Non durerà molto."}
+ ],
+ w:"Non mettere più di un sito importante al giorno. Dopo quattro ore di attenzione vera non stai più capendo, stai solo camminando. Meglio tornare due volte nello stesso posto che vederne due a metà."
+},
+
+gastronomico:{
+ id:"Gastronomico",
+ read:"Per te un posto si capisce dal piatto, non dal monumento.",
+ body:`<p class="t">Un piatto fatto bene contiene la geografia, il clima, la storia commerciale e la struttura sociale di un posto. Non è una posizione romantica, è letteralmente vero, e chi cucina da generazioni lo sa benissimo anche se non lo direbbe mai così. Ho l'impressione che tu lo sappia già. Per questo partirei dai mercati e dai produttori, e lascerei i ristoranti per ultimi.</p>`,
+ d:[
+  {n:"Kakheti",c:"Georgia",m:"Settembre-ottobre, in vendemmia",t:"Ottomila anni di vino in anfora qvevri, la tecnica più antica del mondo, ancora praticata nelle cantine di famiglia. In vendemmia si partecipa, non si guarda. Quasi nessuno pensa alla Georgia per mangiare, ed è uno degli errori più grossi che si possano fare con un profilo come il tuo."},
+  {n:"Osaka e il Kansai",c:"Giappone",m:"Marzo-maggio, ottobre-novembre",t:"Non Tokyo. Osaka è la cucina popolare giapponese: il mercato di Kuromon, i banchi di takoyaki, i kappo dove il cuoco lavora a trenta centimetri dal cliente. Da lì si raggiunge Kyoto per il kaiseki e Nara per il sake. Tre grammatiche diverse nella stessa regione."},
+  {n:"Lima e la valle sacra",c:"Perù",m:"Da aprile a ottobre",t:"Quattromila varietà di patata e tre ecosistemi che finiscono nello stesso piatto. Qui la biodiversità è ancora la base della cucina, non un argomento di marketing."}
+ ],
+ w:"Non fidarti delle classifiche. I ristoranti che ci finiscono cucinano per un palato internazionale — è il loro mestiere ed è legittimo, ma non è quello che cerchi tu. Quello sta nei posti senza menù tradotto, e si trova solo chiedendo a chi ci vive. Un'ora passata a cercare fonti locali vale più di dieci prenotazioni."
+},
+
+edonista:{
+ id:"Edonista",
+ read:"Non vuoi di più. Vuoi che ogni cosa sia fatta bene.",
+ body:`<p class="t">Hai sviluppato una sensibilità che rende il mediocre davvero fastidioso. Non è snobismo: è che sai riconoscere la differenza, e un pasto sbagliato in un posto dove si mangia benissimo è un'occasione che non torna.</p>
+<p class="t">Potrei sbagliarmi, ma ho l'impressione che per te meno posti fatti bene battano più posti fatti in fretta — e che l'alloggio non sia dove dormi, ma parte di quello che sei venuto a vedere.</p>`,
+ d:[
+  {n:"San Sebastián",c:"Paesi Baschi · Spagna",m:"Maggio-giugno, settembre",t:"La più alta densità di cucina eccellente per abitante d'Europa, e la cosa notevole è che si va dal tre stelle al bar di pintxos da pochi euro senza che la qualità crolli mai. Base in città, escursioni verso Getaria per il pesce alla brace e verso la Rioja Alavesa per il vino."},
+  {n:"Langhe",c:"Piemonte · Italia",m:"Ottobre-novembre",t:"La propongo per la stagione più che per il posto: tartufo bianco, vendemmia appena finita, cantine aperte. In altri mesi non avrebbe lo stesso senso. Si dorme in una cascina e si scende in paese a piedi."},
+  {n:"Kyoto, con un ryokan tradizionale",c:"Giappone",m:"Aprile o novembre",t:"Il kaiseki è la forma più raffinata di cucina stagionale che esista, e il ryokan è un'esperienza estetica completa: la stanza, il bagno termale, dodici portate servite in camera. Costa quanto immagini. Una notte fatta bene vale più di cinque in un hotel qualsiasi."}
+ ],
+ w:"Non mescolare i registri. L'errore più comune nel tuo caso è alternare una cena eccezionale a un hotel anonimo per far quadrare i conti: il contrasto non fa risparmiare, abbassa tutto. Meglio tre giorni fatti bene che sei fatti a metà."
+},
+
+lusso:{
+ id:"Lusso Discreto",
+ read:"Vuoi il meglio, ma senza doverlo condividere con duecento persone.",
+ body:`<p class="t">La sensazione che ho è che il tuo lusso non si misuri in stelle, ma in quante persone ci sono intorno. Un cinque stelle circondato da duecento turisti rumorosi non è lusso: è un buon servizio nel posto sbagliato. Alla fine è il contesto quello che ti resta addosso.</p>
+<p class="t">Quindi la variabile che pesa di più non è la struttura, è chi altro ci sarà. E si governa in due modi soltanto: posti con poche camere, e mesi in cui gli altri non vanno.</p>`,
+ d:[
+  {n:"Un ryokan nell'entroterra",c:"Giappone",m:"Aprile-maggio, ottobre-novembre",t:"Non Kyoto: Kinosaki, Kurokawa, la penisola di Noto. Otto camere, onsen privato, cena servita in stanza e un servizio che anticipa senza mai farsi vedere. Quasi nessun italiano ci arriva, ed è parte del motivo per cui funziona."},
+  {n:"Wadi Rum",c:"Giordania",m:"Marzo-aprile, ottobre-novembre",t:"I camp di alta gamma stanno lontani dal circuito di Petra. Tende beduine attrezzate, cena sotto il cielo, silenzio totale. Si combina con due giorni a Petra entrando alle sei del mattino, quando non c'è ancora nessuno."},
+  {n:"Alentejo",c:"Portogallo",m:"Marzo-maggio, settembre-ottobre",t:"La meno nota delle tre. Herdade riconvertite in alberghi da dieci camere, sugherete, ulivi, cantine proprie. Sembra un altro secolo. È dove sta andando l'ospitalità europea di livello, prima che se ne accorgano tutti."}
+ ],
+ w:"Non fidarti delle classifiche internazionali degli hotel. Ottimizzano per un cliente che non sei tu e finiscono per premiare strutture grandi con clientela mista. Il criterio da usare è molto più semplice: quante camere ha, e in che mese ci vai."
+},
+
+avventuriero:{
+ id:"Avventuriero",
+ read:"Un viaggio in cui non ti stanchi, per te, non è un viaggio.",
+ body:`<p class="t">Se la sera non sei stanco, probabilmente non è stato il viaggio giusto — ed è una cosa che chi non ha il tuo profilo fatica a capire. Le variabili che contano nel tuo caso sono tre, e nessuna riguarda la bellezza del posto: la stagione, il dislivello, e la forma che hai adesso. Non quella di tre anni fa.</p>`,
+ d:[
+  {n:"Alta Via 1 o 2",c:"Dolomiti · Italia",m:"Da fine giugno a settembre",t:"Otto o dieci giorni dormendo nei rifugi, dislivelli seri e la possibilità di alzare o abbassare la difficoltà tappa per tappa. Impegnativa nelle gambe, semplice da organizzare: i rifugi si prenotano online e il sentiero è segnato bene."},
+  {n:"Torres del Paine",c:"Patagonia · Cile",m:"Da novembre a marzo",t:"Il W in cinque giorni o il circuito completo in otto. Il vento è la variabile che quasi nessuno considera abbastanza: cambia completamente la difficoltà e tra dicembre e gennaio è al massimo. I rifugi vanno prenotati sei mesi prima, ed è l'unico vero ostacolo."},
+  {n:"GR20",c:"Corsica · Francia",m:"Giugno o settembre",t:"Considerato il trekking più duro d'Europa: quindici tappe, roccia vera, tratti attrezzati. Ha senso solo per chi ha già fatto multi-giorno. Se dovessi scommettere direi che è nelle tue corde, ma è il tipo di cosa su cui è meglio essere onesti prima di partire."}
+ ],
+ w:"Non calibrare sulla forma che avevi. È l'errore che vedo più spesso e quello con le conseguenze peggiori, perché un infortunio al terzo giorno in un posto remoto non rovina una giornata. Fai due uscite lunghe nel mese prima di partire, e decidi dopo."
+},
+
+connettore:{
+ id:"Connettore",
+ read:"Il posto conta. Ma conta molto meno di chi hai accanto.",
+ body:`<p class="t">Mi sembra che il tuo viaggio riuscito non sia quello col paesaggio migliore, ma quello in cui il gruppo ha funzionato. Ed è più difficile da progettare di quanto sembri, perché obbliga a ragionare sulla persona meno flessibile del gruppo e non su di te.</p>
+<p class="t">La regola pratica: una base sola, tempi larghi, e almeno una cosa al giorno che si può saltare senza problemi. I litigi in viaggio nascono quasi sempre dai ritmi diversi, non dai gusti diversi.</p>`,
+ d:[
+  {n:"Una masseria in Val d'Itria",c:"Puglia · Italia",m:"Maggio-giugno, settembre",t:"Funziona per un gruppo perché la casa diventa il centro: chi vuole restare in piscina resta, chi vuole andare a Ostuni va, e la sera si mangia tutti insieme. Il cibo non è un problema per nessuno e gli spostamenti sono contenuti."},
+  {n:"Isole Ionie",c:"Grecia",m:"Giugno o settembre",t:"Meno affollate delle Cicladi e molto più verdi. Casa a Lefkada o a Itaca e barca senza patente per uscire. L'isola crea confini naturali che semplificano tutto: distanze corte, decisioni poche."},
+  {n:"Bled e la valle dell'Isonzo",c:"Slovenia",m:"Maggio-giugno, settembre",t:"Questa non la considera quasi nessuno, e con i gruppi è la soluzione che funziona più spesso. Un paese piccolo dove in poco tempo si passa dal lago alle grotte alle terme, prezzi bassi e tutto che funziona. C'è sempre un'alternativa a portata di mano, che con più persone è esattamente quello che serve."}
+ ],
+ w:"Non dare per scontato che vogliate le stesse cose. La conversazione utile si fa prima di prenotare, non durante: quanto muoversi, quanto spendere, quanto stare insieme. Dieci minuti di chiarezza all'inizio valgono più di qualsiasi itinerario."
+},
+
+genitore:{
+ id:"Genitore Esploratore",
+ read:"Non hai smesso di esplorare. Hai solo cambiato le condizioni.",
+ body:`<p class="t">Il tuo problema non è scegliere tra avventura e famiglia. È calibrare, e non è banale. Vuoi che i tuoi figli vedano qualcosa di vero e non un parco a tema, ma sai anche che con i bambini il margine di errore si stringe parecchio.</p>
+<p class="t">La regola che uso con chi risponde come te: autenticità alta, imprevedibilità bassa. Il posto può stare fuori dal turismo di massa, ma sanità, acqua e trasporti devono essere affidabili — su questo non farei sconti.</p>`,
+ d:[
+  {n:"Costa Rica",c:"America centrale",m:"Da dicembre ad aprile",t:"È il posto dove la natura fa il lavoro da sola: bradipi, tucani, tartarughe che depongono, vulcani attivi. Sicurezza alta, sanità buona, cibo che i bambini mangiano senza discutere. E gli spostamenti restano contenuti, che con loro è la variabile che decide tutto."},
+  {n:"Azzorre",c:"Portogallo",m:"Da giugno a settembre",t:"Sono in mezzo all'Atlantico e sembrano un continente a parte. Balene avvistate davvero dalla barca, crateri, piscine termali naturali sul mare. E non ci va quasi nessuno con i bambini, il che significa spazio."},
+  {n:"Giappone",c:"Giappone",m:"Marzo-aprile, ottobre-novembre",t:"Se i tuoi figli hanno più di sette anni credo sia il viaggio che si ricorderanno da grandi. Treni che diventano parte del divertimento, sicurezza assoluta, e per te la logistica più semplice del mondo."}
+ ],
+ w:"Non comprimere. Con i bambini ogni spostamento chiede il doppio del tempo previsto, e un itinerario che sulla carta funziona diventa una corsa. Togli un terzo delle cose prima di partire, non dopo quando sarete già stanchi e nervosi."
+},
+
+business:{
+ id:"Business Escapist",
+ read:"Hai poco tempo e nessuna voglia di gestire niente.",
+ body:`<p class="t">L'impressione è che la tua risorsa scarsa non sia il budget ma il tempo: ogni ora persa in una micro-decisione sul posto è un'ora tolta al viaggio. Non vuoi scegliere il ristorante quando sei già lì, vuoi che sia già prenotato. Da cui il criterio, più rigido di quanto sembri: volo diretto, città compatta, tutto prenotabile prima. Le destinazioni con logistica interna complicata restano fuori, per quanto belle siano.</p>`,
+ d:[
+  {n:"Lisbona",c:"Portogallo",m:"Marzo-giugno, settembre-ottobre",t:"Una delle capitali europee meglio collegate, e una città che si attraversa a piedi, hotel di livello a prezzi ancora ragionevoli. Quattro giorni pieni senza dover prendere un mezzo lungo nemmeno una volta."},
+  {n:"Copenaghen",c:"Danimarca",m:"Da maggio a settembre",t:"La città più efficiente d'Europa per un viaggio breve: aeroporto collegato direttamente al centro, tutto in bicicletta, nessun tempo morto. Costa, ma nel tuo caso il tempo risparmiato ha un valore misurabile."},
+  {n:"Tangeri",c:"Marocco",m:"Marzo-maggio, ottobre-novembre",t:"Questa probabilmente non l'avevi considerata. Il contrasto è totale: medina, mercati, il punto in cui il Mediterraneo incontra l'Atlantico. Riad ristrutturato bene, tutto prenotato prima, e in tre giorni si ha la sensazione di essere stati via due settimane."}
+ ],
+ w:"Non lasciare niente da decidere sul posto. Con quattro giorni, un'ora persa a cercare dove cenare è il due per cento del viaggio. Prenota ristoranti, transfer e almeno una cosa al giorno prima di partire — e poi lascia una mattina completamente vuota, perché è lì che capitano le cose migliori."
+},
+
+collezionista:{
+ id:"Collezionista",
+ read:"Stare fermo ti annoia, e non è un difetto.",
+ body:`<p class="t">Viaggi per accumulo e varietà, e finché il ritmo regge funziona benissimo. Non è superficialità, è un modo diverso di raccogliere le cose.</p>
+<p class="t">Il rischio è uno solo, e posso sbagliarmi ma credo tu lo conosca già. Oltre una certa densità i posti si sovrappongono. Sei paesi in dodici giorni non diventano sei ricordi, diventano una cosa sola e confusa. E quella soglia è più bassa di quanto sembri mentre pianifichi da casa.</p>`,
+ d:[
+  {n:"Circuito balcanico via terra",c:"Slovenia · Croazia · Bosnia · Montenegro",m:"Maggio-giugno, settembre",t:"Due settimane in macchina. Ogni frontiera cambia alfabeto, religione, architettura e cucina, quindi si ottiene la varietà che cerchi senza voli interni e senza tempi morti in aeroporto. Il tratto tra Mostar e Kotor vale da solo il viaggio."},
+  {n:"Samarcanda, Bukhara, Khiva",c:"Uzbekistan",m:"Aprile-maggio, settembre-ottobre",t:"Collegate da treni veloci e comodi. È la varietà visiva più alta per giorno che si possa ottenere, in dieci giorni senza stress logistico. E quasi nessuno ci va ancora, il che nel tuo caso è un valore aggiunto."},
+  {n:"Kansai e Chugoku",c:"Giappone",m:"Marzo-aprile, ottobre-novembre",t:"Osaka, Kyoto, Nara, Himeji, Hiroshima, Naoshima. Il Japan Rail Pass rende gli spostamenti parte dell'esperienza invece che un costo. Due settimane, sei posti, zero tempo buttato."}
+ ],
+ w:"Non aggiungere l'ultima tappa. Sarai tentato di infilarne una in più perché tanto sei lì, ed è sempre quella che rompe il ritmo e ti costringe a tagliare le altre. Togline una da quelle che hai in testa adesso: il viaggio migliora."
+}
+
 };
 
-function unlock(sid){
-  const b=document.getElementById('btn-'+sid);
-  if(b){b.classList.add('on');}
+function pickProfile(){
+ const q1=a.q1??0,q2=a.q2??1,q3=a.q3??1,q4=a.q4??5,q5=a.q5??0,q6=a.q6??0;
+ if(q4===4)return{k:P.avventuriero,weak:false};
+ if(q4===3)return{k:P.gastronomico,weak:false};
+ if(q5===3)return{k:P.genitore,weak:false};
+ if(q6===3)return{k:(q1===5?P.lusso:P.business),weak:false};
+ if(q1===0){if(q2===2)return{k:P.ricostituente,weak:false};if(q3===0)return{k:P.resetter,weak:false};return{k:P.fuggiasco,weak:q2===1};}
+ if(q1===1){if(q3===0)return{k:P.pellegrino,weak:false};return{k:P.cercatore,weak:q2!==0};}
+ if(q1===2)return{k:(q2===0?P.nomade:P.culturale),weak:false};
+ if(q1===3)return{k:P.connettore,weak:false};
+ if(q1===4)return{k:P.avventuriero,weak:false};
+ if(q1===5){if(q6===1)return{k:P.lusso,weak:true};return{k:P.edonista,weak:false};}
+ if(q1===6)return{k:P.collezionista,weak:false};
+ return{k:P.fuggiasco,weak:true};
 }
 
-function pick(sid,qk,val,btn){
-  ans[qk]=val;
-  document.getElementById('grid-'+sid).querySelectorAll('.opt').forEach(b=>b.classList.remove('sel'));
-  btn.classList.add('sel');
-  unlock(sid);
+function p(sid,key,val,btn){
+ a[key]=val;
+ document.getElementById('g-'+sid).querySelectorAll('.opt').forEach(x=>x.classList.remove('sel'));
+ btn.classList.add('sel');
+ const b=document.getElementById('b-'+sid);if(b)b.classList.add('on');
+}
+function c0(){
+ const n=document.getElementById('inp-name').value.trim(),e=document.getElementById('inp-email').value.trim();
+ document.getElementById('b-s0').classList.toggle('on',n.length>1&&e.includes('@')&&e.includes('.'));
+}
+function cO(){document.getElementById('b-s3').classList.toggle('on',document.getElementById('inp-open').value.trim().length>4);}
+function cF(){document.getElementById('o-btn').classList.toggle('on',document.getElementById('inp-fb').value.trim().length>3);}
+function go(id){
+ document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+ const t=document.getElementById(id);
+ if(t){t.classList.add('active');window.scrollTo({top:0,behavior:'smooth'});}
+}
+function send(){go('s-wait');setTimeout(()=>{out(pickProfile());go('s-out');},1600);}
+
+function out(res){
+ const k=res.k;
+ const name=(document.getElementById('inp-name').value.trim().split(' ')[0])||'Ciao';
+ const said=document.getElementById('inp-open').value.trim();
+ document.getElementById('o-hi').textContent=name+',';
+ document.getElementById('o-open').innerHTML=
+  `<p class="t">tra le tue risposte ce n'è una che orienta tutto il resto. Parto da qui:</p>
+   <div class="said">"${said.replace(/</g,'&lt;')}"</div>`;
+ document.getElementById('o-read').textContent=k.read;
+ document.getElementById('o-body').innerHTML=k.body;
+ document.getElementById('o-dests').innerHTML=k.d.map(x=>
+  `<div class="d"><h4>${x.n}</h4><div class="co">${x.c}</div><div class="m">${x.m}</div><p>${x.t}</p></div>`).join('');
+ document.getElementById('o-warn').textContent=k.w;
+ document.getElementById('o-btn').onclick=()=>{
+  const fb=document.getElementById('inp-fb').value.trim();
+  window.location.href='mailto:crisci.davide@hotmail.com'
+   +'?subject='+encodeURIComponent(name+' — '+k.id)
+   +'&body='+encodeURIComponent(
+     'Nome: '+name
+     +'\nDirezione: '+k.id+(res.weak?' (segnale debole)':'')
+     +'\n\nQuello che ho scritto all\'inizio:\n"'+said+'"'
+     +'\n\nCome mi è sembrato:\n'+fb+'\n\n');
+ };
+ if(res.weak)console.warn('[segnale debole]',k.id);
 }
 
-function checkS0(){
-  const n=document.getElementById('inp-name').value.trim();
-  const e=document.getElementById('inp-email').value.trim();
-  const ok=n.length>1&&e.includes('@')&&e.includes('.');
-  const b=document.getElementById('btn-s0');
-  b.classList.toggle('on',ok);
+function reset(){
+ Object.keys(a).forEach(k=>delete a[k]);
+ ['inp-name','inp-email','inp-open','inp-fb'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});
+ document.querySelectorAll('.opt').forEach(b=>b.classList.remove('sel'));
+ document.querySelectorAll('.next').forEach(b=>b.classList.remove('on'));
+ document.getElementById('o-btn').classList.remove('on');
+ go('s0');
 }
-
-function checkOpen(){
-  const v=document.getElementById('inp-open').value.trim();
-  const b=document.getElementById('btn-s7');
-  b.classList.toggle('on',v.length>4);
-}
-
-function goTo(id){
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  const t=document.getElementById(id);
-  if(t){t.classList.add('active');window.scrollTo({top:0,behavior:'smooth'});}
-}
-
-function classify(){
-  const q1=ans.q1??0,q2=ans.q2??1,q4=ans.q4??5,q5=ans.q5??0,q6=ans.q6??1;
-  if(q4===4) return A[6];
-  if(q4===3) return A[13];
-  if(q5===3) return A[10];
-  if(q1===0){ return q2===2?A[3]:q6>=2?A[0]:A[14]; }
-  if(q1===1){ return q2===0?A[11]:A[2]; }
-  if(q1===2){ return q2===0?A[7]:A[8]; }
-  if(q1===3) return A[4];
-  if(q1===4) return A[6];
-  if(q1===5){ return q6>=2?A[9]:A[5]; }
-  if(q1===6) return A[1];
-  return A[0];
-}
-
-function calcAndShow(){
-  goTo('s-loading');
-  setTimeout(()=>{
-    const a=classify();
-    renderResult(a);
-    goTo('s-result');
-  },2000);
-}
-
-function renderResult(a){
-  document.getElementById('r-eyebrow').textContent='Archetipo '+String(a.id).padStart(2,'0')+' / 15';
-  document.getElementById('r-name').textContent=a.name;
-  document.getElementById('r-sub').textContent=a.sub;
-  document.getElementById('r-phrase').textContent='"'+a.phrase+'"';
-  document.getElementById('r-err-title').textContent=a.errT;
-  document.getElementById('r-err-why').textContent=a.errW;
-  document.getElementById('r-cta-sub').textContent=a.cta;
-
-  const labels={avventura:'Avventura',struttura:'Struttura',premium:'Premium',profondità:'Profondità'};
-  const dw=document.getElementById('r-dna');
-  dw.innerHTML='';
-  Object.entries(a.dna).forEach(([k,v])=>{
-    dw.innerHTML+=`<div class="dna-item"><span class="dna-name">${labels[k]}</span><div class="dna-track"><div class="dna-bar" style="width:${v}%"></div></div><span class="dna-val">${v}</span></div>`;
-  });
-
-  document.getElementById('r-dest-yes').innerHTML=a.si.map(d=>`<span class="tag tag-yes">${d}</span>`).join('');
-  document.getElementById('r-dest-no').innerHTML=a.no.map(d=>`<span class="tag tag-no">${d}</span>`).join('');
-
-  const name=document.getElementById('inp-name').value.trim()||'il viaggiatore';
-  document.getElementById('r-cta-btn').onclick=()=>{
-    window.location.href='mailto:crisci.davide@hotmail.com?subject=Travel DNA — '+encodeURIComponent(a.name)+'&body='+encodeURIComponent('Ciao Davide,\n\nHo completato il test Travel DNA. Il mio archetipo è: '+a.name+'.\n\nLa mia risposta alla domanda finale: '+document.getElementById('inp-open').value+'\n\nVorrei saperne di più.');
-  };
-}
-
-function rate(val,btn){
-  document.getElementById('rating-scale').querySelectorAll('.rbtn').forEach(b=>b.classList.remove('sel'));
-  btn.classList.add('sel');
-  ans.rating=val;
-  const fb=document.getElementById('r-feedback');
-  fb.textContent=val<=4?FB.low:val<=7?FB.mid:FB.high;
-  fb.classList.add('show');
-  document.getElementById('r-cta').classList.add('show');
-}
-
-function restart(){
-  Object.keys(ans).forEach(k=>delete ans[k]);
-  ['inp-name','inp-email','inp-open'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
-  document.querySelectorAll('.opt').forEach(b=>b.classList.remove('sel'));
-  document.querySelectorAll('.rbtn').forEach(b=>b.classList.remove('sel'));
-  document.querySelectorAll('.btn-next').forEach(b=>b.classList.remove('on'));
-  document.getElementById('r-feedback').classList.remove('show');
-  document.getElementById('r-cta').classList.remove('show');
-  goTo('s0');
-}
-
-// init
-document.getElementById('btn-s7').classList.remove('on');
 </script>
 </body>
 </html>
