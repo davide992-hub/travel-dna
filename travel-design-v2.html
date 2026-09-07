@@ -454,6 +454,7 @@ let moving=false;
 function p(sid,key,val,btn){
  if(moving) return;
  a[key]=val;
+ a[key+'_text']=(btn.textContent||'').trim();  // strumentazione interna: conserva la risposta originale
  document.getElementById('g-'+sid).querySelectorAll('.opt').forEach(x=>x.classList.remove('sel'));
  btn.classList.add('sel');
  moving=true;
@@ -511,9 +512,52 @@ function out(res){
      'Nome: '+name
      +'\nDirezione: '+k.id+(res.weak?' (segnale debole)':'')
      +'\n\nQuello che ho scritto all\'inizio:\n"'+said+'"'
-     +'\n\nCome mi è sembrato:\n'+fb+'\n\n');
+     +'\n\nCome mi è sembrato:\n'+fb
+     +'\n\n'+internal(k,res,said,fb));
  };
  if(res.weak)console.warn('[segnale debole]',k.id);
+}
+
+// ── strumentazione interna: nessun effetto su UI e logica ──
+// ── strumentazione interna: nessun effetto su UI e logica ──
+// Le etichette seguono l'ordine e il testo mostrati all'utente.
+// La chiave interna (q1..q6) e' indicata a fianco per tracciabilita'.
+const QMAP=[
+ {pos:'Q1', key:'q1',   testo:'Da dove parti, adesso?'},
+ {pos:'Q2', key:'q5',   testo:'Con chi sei, in questo viaggio?'},
+ {pos:'Q3', key:'open', testo:"C'e' una cosa che, se succede, questo viaggio e' riuscito?"},
+ {pos:'Q4', key:'q2',   testo:'Nei viaggi passati, come sei stato?'},
+ {pos:'Q5', key:'q3',   testo:'Arrivi in un posto nuovo senza un piano per il giorno. Come stai?'},
+ {pos:'Q6', key:'q4',   testo:'Cosa trasformerebbe questo viaggio in un fallimento?'},
+ {pos:'Q7', key:'q6',   testo:'Come useresti il budget?'}
+];
+
+function internal(k,res,said,fb){
+ let s='--------------------------------\n';
+ s+='DATI QUESTIONARIO — INTERNAL\n';
+ s+='--------------------------------\n';
+ QMAP.forEach(q=>{
+  let testo=q.testo;
+  // la Q5 cambia a seconda della risposta alla Q2: registro quella vista davvero
+  if(q.key==='q3'){
+   const el=document.getElementById('q-rit');
+   if(el&&el.textContent) testo=el.textContent.trim();
+  }
+  s+='\n'+q.pos+' ['+q.key+'] '+testo+'\n';
+  if(q.key==='open'){
+   s+='  text:  '+(said||'ND')+'\n';
+  }else{
+   s+='  value: '+((a[q.key]===undefined)?'ND':a[q.key])+'\n';
+   s+='  text:  '+(a[q.key+'_text']||'ND')+'\n';
+  }
+ });
+ s+='\nArchetipo: '+k.id+'\n';
+ s+='Segnale: '+(res.weak?'debole':'forte')+'\n';
+ s+='\nDestinazioni mostrate:\n';
+ k.d.forEach((x,i)=>{ s+=(i+1)+'. '+x.n+' — '+x.c+' ('+x.m+')\n'; });
+ s+='\nFeedback:\n'+(fb||'ND')+'\n';
+ s+='--------------------------------\n';
+ return s;
 }
 
 function reset(){
